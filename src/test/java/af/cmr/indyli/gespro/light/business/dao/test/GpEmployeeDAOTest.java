@@ -44,7 +44,7 @@ public class GpEmployeeDAOTest {
 	}
 	
 	@Test
-	public void testDeleteEmployeeByIdWithSuccess() {
+	public void testFindByIdWithSuccess() {
 		//Given
 		Integer empId = 1;
 		

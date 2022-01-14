@@ -9,7 +9,7 @@ import java.util.List;
 import af.cmr.indyli.gespro.light.business.dao.IGpProjectManagerDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
-public class GpProjetManagerDAOImpl implements IGpProjectManagerDAO{
+public class GpProjectManagerDAOImpl implements IGpProjectManagerDAO{
 
 private GpEntityManager entityManager = new GpEntityManager();
 	

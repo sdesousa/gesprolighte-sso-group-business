@@ -29,7 +29,6 @@ private GpEntityManager entityManager = new GpEntityManager();
 	    	this.entityManager.updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
 	    	emp.setId(empId);
 	    	this.entityManager.getDbConnect().setAutoCommit(true);
-	    	this.entityManager.getDbConnect().commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

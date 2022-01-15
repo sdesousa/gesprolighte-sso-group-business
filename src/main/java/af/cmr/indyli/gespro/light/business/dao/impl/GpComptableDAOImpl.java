@@ -1,4 +1,4 @@
-package af.cmr.indyli.gespro.light.business.dao.impl;
+  package af.cmr.indyli.gespro.light.business.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpTechnicianDAO;
-import af.cmr.indyli.gespro.light.business.entity.GpTechnician;
+import af.cmr.indyli.gespro.light.business.dao.IGpComptableDAO;
+import af.cmr.indyli.gespro.light.business.entity.GpComptable;
 
-public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
+public class GpComptableDAOImpl implements IGpComptableDAO {
+
 	private GpEntityManager entityManager = new GpEntityManager();
 
-	public GpTechnician create(GpTechnician emp) {
+	public GpComptable create(GpComptable emp) {
 		try {
 			// On demarre une transaction
 			this.entityManager.getDbConnect().setAutoCommit(false);
@@ -23,30 +24,29 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 					emp.getPassword(), new Date(), emp.getEmail(), emp.getLogin() };
 			this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 			Integer empId = entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
-			// On insere maintenant dans la table GP_TECHNICIAN
-			String REQ_SQL_PM = "INSERT INTO GP_TECHNICIAN ( EMP_ID, LAST_DIPLOMA, GRADUATION_YEAR) VALUES (?,?,?)";
-			Object[] tabParamPM = { empId, emp.getLastDiploma(), emp.getGraduationYear() };
+			// On insere maintenant dans la table GP_ACCOUNTANT
+			String REQ_SQL_PM = "INSERT INTO GP_ACCOUNTANT ( EMP_ID) VALUES (?)";
+			Object[] tabParamPM = { empId };
 			this.entityManager.updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
 			emp.setId(empId);
 			this.entityManager.getDbConnect().setAutoCommit(true);
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return emp;
 	}
 
-	public void update(GpTechnician emp) {
+	public void update(GpComptable emp) {
 		String REQ_SQL = "UPDATE FROM GP_EMPLOYEE SET LASTNAME=? , FIRSTNAME=? , PHONE_NUMBER=? ,PASSWORD = ? ,EMAIL=? ,LOGIN=?     WHERE EMP_ID = ?";
 		Object[] tabParam = { emp.getLastname(), emp.getFirstname(), emp.getPhoneNumber(), emp.getPassword(),
 				emp.getEmail(), emp.getLogin(), emp.getId() };
 		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
-
 	}
 
-	public List<GpTechnician> findAll() {
-		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN AS tc JOIN GP_EMPLOYEE AS emp WHERE tc.EMP_ID=emp.EMP_ID";
+	public List<GpComptable> findAll() {
+		String REQ_SQL = "SELECT * FROM GP_ACCOUNTANT AS acc JOIN GP_EMPLOYEE AS emp WHERE acc.EMP_ID=emp.EMP_ID";
 		ResultSet resultat = this.entityManager.exec(REQ_SQL);
-		List<GpTechnician> empList = new ArrayList<GpTechnician>();
+		List<GpComptable> empList = new ArrayList<GpComptable>();
 		if (resultat != null) {
 			try {
 				while (resultat.next()) {
@@ -59,9 +59,7 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
-					String lastDiploma = resultat.getString("LAST_DIPLOMA");
-					int graduationYear = resultat.getInt("GRADUATION_YEAR");
-					GpTechnician foundEmp = new GpTechnician();
+					GpComptable foundEmp = new GpComptable();
 					foundEmp.setId(empId);
 					foundEmp.setFileNumber(fileNumber);
 					foundEmp.setLastname(lastname);
@@ -71,8 +69,6 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 					foundEmp.setPhoneNumber(phoneNumber);
 					foundEmp.setEmail(email);
 					foundEmp.setLogin(login);
-					foundEmp.setLastDiploma(lastDiploma);
-					foundEmp.setGraduationYear(graduationYear);
 					empList.add(foundEmp);
 				}
 				resultat.close();
@@ -84,16 +80,16 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 	}
 
 	public void deleteById(Integer empId) {
-		String REQ_SQL = "DELETE FROM GP_EMPLOYEE WHERE EMP_ID = ?";
+		String REQ_SQL = "DELETE FROM  GP_EMPLOYEE WHERE EMP_ID = ?";
 		Object[] tabParam = { empId };
 		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
-	public GpTechnician findById(Integer empId) {
-		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN AS tc JOIN GP_EMPLOYEE AS emp WHERE tc.EMP_ID=emp.EMP_ID AND tc.EMP_ID = ?";
+	public GpComptable findById(Integer empId) {
+		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
 		Object[] tabParam = { empId };
 		ResultSet resultat = this.entityManager.selectAvecParamGenerique(REQ_SQL, tabParam);
-		GpTechnician foundEmp = new GpTechnician();
+		GpComptable foundEmp = new GpComptable();
 		if (resultat != null) {
 			try {
 				while (resultat.next()) {
@@ -103,8 +99,6 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 					String phoneNumber = resultat.getString("PHONE_NUMBER");
 					String password = resultat.getString("PASSWORD");
 					Date creationDate = resultat.getDate("CREATION_DATE");
-					String lastDiploma = resultat.getString("LAST_DIPLOMA");
-					int graduationYear = resultat.getInt("GRADUATION_YEAR");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
 					foundEmp.setId(empId);
@@ -116,8 +110,6 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 					foundEmp.setPhoneNumber(phoneNumber);
 					foundEmp.setEmail(email);
 					foundEmp.setLogin(login);
-					foundEmp.setLastDiploma(lastDiploma);
-					foundEmp.setGraduationYear(graduationYear);
 				}
 				resultat.close();
 			} catch (SQLException e) {
@@ -126,5 +118,4 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 		}
 		return foundEmp;
 	}
-
 }

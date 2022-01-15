@@ -54,4 +54,13 @@ public class GpProjectManagerDAOTest {
 		//Then
 		Assert.assertNotNull(emp);
 	}
+	
+	@Test
+	public void testDeleteByIdWithSuccess() {
+		//Given
+		Integer empId = 2;
+		
+		//When 
+		this.empDAO.deleteById(empId);
+	}
 }

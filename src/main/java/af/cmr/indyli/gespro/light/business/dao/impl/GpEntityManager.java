@@ -45,7 +45,7 @@ public class GpEntityManager {
 	 */
 	public Boolean connect() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			this.dbConnect = DriverManager.getConnection(this.dbURL, this.user, this.password);
 			this.dbStatement = this.dbConnect.createStatement();
 			if (this.nbMaxRow != null){

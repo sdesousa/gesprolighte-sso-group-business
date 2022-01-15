@@ -3,7 +3,7 @@ package af.cmr.indyli.gespro.light.business.entity;
 public class GpBill implements IEntity {
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private Integer id;
 
 	private double amount;
 

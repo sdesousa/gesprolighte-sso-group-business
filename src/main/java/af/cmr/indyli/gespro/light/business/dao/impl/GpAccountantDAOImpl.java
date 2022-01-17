@@ -1,4 +1,4 @@
-  package af.cmr.indyli.gespro.light.business.dao.impl;
+package af.cmr.indyli.gespro.light.business.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +10,6 @@ import af.cmr.indyli.gespro.light.business.dao.IGpAccountantDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpAccountant;
 
 public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant> implements IGpAccountantDAO {
-
-	
 
 	public GpAccountant create(GpAccountant emp) {
 		try {

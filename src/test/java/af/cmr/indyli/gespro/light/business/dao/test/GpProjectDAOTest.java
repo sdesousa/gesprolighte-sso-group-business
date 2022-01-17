@@ -1,20 +1,34 @@
 package af.cmr.indyli.gespro.light.business.dao.test;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpProjectDAO;
+import af.cmr.indyli.gespro.light.business.dao.IGpProjectManagerDAO;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectDAOImpl;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectManagerDAOImpl;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 import af.cmr.indyli.gespro.light.business.entity.GpProject;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
 public class GpProjectDAOTest {
 
+	private IGpProjectManagerDAO empDAO = new GpProjectManagerDAOImpl();
 	private IGpProjectDAO projectDAO = new GpProjectDAOImpl();
+
+	private Integer pjIdForAllTest = null;
+	private Integer pjIdCreateTest = null;
+
+	private GpOrganization orgTest;
+	private GpProjectManager pmTest;
 
 	@Test
 	public void testCreateProjectWithSuccess() {
@@ -29,22 +43,17 @@ public class GpProjectDAOTest {
 		project.setAmount(5623.66);
 		project.setCreationDate(new Date());
 
-		// début code-tempo
+		Assert.assertNotNull(this.pmTest.getId());
+		Assert.assertNotNull(this.orgTest.getId());
 
-		GpOrganization organization = new GpOrganization();
-		organization.setId(1);
-		project.setGpOrganization(organization);
+		project.setGpOrganization(this.orgTest);
+		project.setGpChefProjet(pmTest);
 
-		GpProjectManager manager = new GpProjectManager();
-		manager.setId(1);
-		project.setGpChefProjet(manager);
-		// fin code-tempo
-
-		// When
-		project = projectDAO.create(project);
-
-		// Then
+		project = this.projectDAO.create(project);
 		Assert.assertNotNull(project.getId());
+
+		this.pjIdCreateTest = project.getId();
+
 	}
 
 	@Test
@@ -60,9 +69,9 @@ public class GpProjectDAOTest {
 	@Test
 	public void testFindByIdWithSuccess() {
 		// Given
-		Integer projectId = 1;
-
+		Integer projectId = this.pjIdForAllTest;
 		// When
+		Assert.assertNotNull(projectId);
 		GpProject project = this.projectDAO.findById(projectId);
 		// Then
 		Assert.assertNotNull(project);
@@ -71,35 +80,71 @@ public class GpProjectDAOTest {
 	@Test
 	public void testDeleteProjectWithSuccess() {
 		// Given
+		Integer projectId = this.pjIdForAllTest;
+		Assert.assertNotNull(projectId);
+		// When
+		projectDAO.deleteById(projectId);
+	}
+
+	@Before
+	public void prepareAllEntityBefore() {
+
+		// Init GpProjetManager
+		GpProjectManager emp = new GpProjectManager();
+		Assert.assertNull(emp.getId());
+		emp.setFileNumber("1050");
+		emp.setLastname("Segolene");
+		emp.setFirstname("ROYAL");
+		emp.setPhoneNumber("0256897856");
+		emp.setPassword("mySecondPassword");
+		emp.setEmail("segolene.royal@gouv.fr");
+		emp.setLogin("sego.royal");
+		emp = empDAO.create(emp);
+
+		this.pmTest = new GpProjectManager();
+		this.pmTest = emp;
+		assertNotNull(this.pmTest.getId());
+
+		// création organisation
+
+		GpOrganization organization = new GpOrganization();
+		Assert.assertNull(organization.getId());
+		organization.setOrgCode("ALPHA");
+		organization.setName("Big Org");
+		organization.setAdrWeb("bigorg.com");
+		organization.setContactEmail("big@org.com");
+		organization.setPhoneNumber(7895);
+		organization.setId(1);// à remplacer par org from daoOrganization
+
+		this.orgTest = new GpOrganization();
+		this.orgTest = organization;
+		Assert.assertNotNull(this.orgTest.getId());
+
+		// création project
 		GpProject project = new GpProject();
 		Assert.assertNull(project.getId());
-
-		project.setProjectCode("X");
-		project.setName("X");
-		project.setDescription("Project To Test Delete");
+		project.setProjectCode("Code-1");
+		project.setName("Project-1");
+		project.setDescription("First Project");
 		project.setStartDate(new Date());
 		project.setEndDate(new Date());
 		project.setAmount(5623.66);
 		project.setCreationDate(new Date());
+		project.setGpOrganization(this.orgTest);
+		project.setGpChefProjet(this.pmTest);
 
-		// début code-tempo
-
-		GpOrganization organization = new GpOrganization();
-		organization.setId(1);
-		project.setGpOrganization(organization);
-
-		GpProjectManager manager = new GpProjectManager();
-		manager.setId(1);
-		project.setGpChefProjet(manager);
-		// fin code-tempo
-
-		// When
-		project = projectDAO.create(project);
-		// Then
+		project = this.projectDAO.create(project);
 		Assert.assertNotNull(project.getId());
 
-		projectDAO.deleteById(project.getId());
+		this.pjIdForAllTest = project.getId();
+	}
 
+	@After
+	public void deleteAllEntityAfter() {
+		this.empDAO.deleteById(this.pjIdCreateTest);
+		if (!Objects.isNull(this.pmTest.getId())) {
+			this.empDAO.deleteById(this.pmTest.getId());
+		}
 	}
 
 }

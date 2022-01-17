@@ -11,82 +11,81 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import af.cmr.indyli.gespro.light.business.dao.IGpEmpReaPhaseDAO;
 import af.cmr.indyli.gespro.light.business.dao.IGpPhaseDAO;
 import af.cmr.indyli.gespro.light.business.dao.IGpProjectDAO;
 import af.cmr.indyli.gespro.light.business.dao.IGpProjectManagerDAO;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpEmpReaPhaseDAOImp;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpPhaseDAOImpl;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectDAOImpl;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectManagerDAOImpl;
+import af.cmr.indyli.gespro.light.business.entity.GpEmpReaPhase;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 import af.cmr.indyli.gespro.light.business.entity.GpProject;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
-public class GpPhaseDAOTest {
+public class GpEmpReaPhaseDAOtest {
 
-	private IGpPhaseDAO phaseDAO = new GpPhaseDAOImpl();
+	private IGpEmpReaPhaseDAO empReaPhaseDAO = new GpEmpReaPhaseDAOImp();
 	private IGpProjectDAO projectDAO = new GpProjectDAOImpl();
 	private IGpProjectManagerDAO empDAO = new GpProjectManagerDAOImpl();
-	private GpProjectManager pmTest;
+	private IGpPhaseDAO phaseDAO = new GpPhaseDAOImpl();
+
+	private Integer emReaPhaseIdForAllTest = null;
+	private Integer emReaPhaseCreateIdTest = null;
+
+	private GpPhase phaseTest;
+	private GpProjectManager empTest;
 	private GpOrganization orgTest;
 	private GpProject pjTest;
-	private Integer phaseIdForAllTest;
 
 	@Test
-	public void testCreatePhaseWithSuccess() {
-		// Given
-		GpPhase phase = new GpPhase();
-		Assert.assertNull(phase.getId());
+	public void testCreateProjectWithSuccess() {
+		GpEmpReaPhase gpEmpReaPhase = new GpEmpReaPhase();
+		gpEmpReaPhase.setCreationDate(new Date());
+		gpEmpReaPhase.setGpPhase(this.phaseTest);
+		gpEmpReaPhase.setGpEmployee(empTest);
 
-		phase.setPhaseCode("Phase-2");
-		phase.setDescription("Deuxième phase du projet");
-		phase.setStartDate(new Date());
-		phase.setEndDate(new Date());
-		phase.setAmount(5653.66);
-		phase.setCreationDate(new Date());
-		phase.setGpProject(pjTest);
-		phase = this.phaseDAO.create(phase);
+		gpEmpReaPhase = this.empReaPhaseDAO.create(gpEmpReaPhase);
+		Assert.assertNotNull(gpEmpReaPhase);
 
-		Assert.assertNotNull(phase.getId());
+		this.emReaPhaseCreateIdTest = gpEmpReaPhase.getId();
 	}
 
 	@Test
-	public void testFindAllPhasesWithSuccess() {
+	public void testFindAllProjectsWithSuccess() {
 		// Given
 
 		// When
-		List<GpPhase> phases = this.phaseDAO.findAll();
+		List<GpEmpReaPhase> empReaPhases = this.empReaPhaseDAO.findAll();
 		// Then
-		Assert.assertTrue(phases.size() > 0);
+		Assert.assertTrue(empReaPhases.size() > 0);
 	}
 
 	@Test
 	public void testFindByIdWithSuccess() {
 		// Given
-		Integer phaseId = this.phaseIdForAllTest;
-
+		Integer empReaId = this.emReaPhaseIdForAllTest;
 		// When
-		GpPhase phase = this.phaseDAO.findById(phaseId);
+		Assert.assertNotNull(empReaId);
+		GpEmpReaPhase empReaPhase = this.empReaPhaseDAO.findById(empReaId);
 		// Then
-		Assert.assertNotNull(phase);
+		Assert.assertNotNull(empReaPhase.getId());
 	}
 
 	@Test
-	public void testDeletePhaseWithSuccess() {
+	public void testDeleteProjectWithSuccess() {
 		// Given
-		Integer phaseId = this.phaseIdForAllTest;
-		// When
-		Assert.assertNotNull(phaseId);
-		GpProject phase = this.projectDAO.findById(phaseId);
-		// Then
-		Assert.assertNotNull(phase);
-
+//		Integer empReaId = this.emReaPhaseIdForAllTest;
+//		Assert.assertNotNull(empReaId);
+//		// When
+//		this.empReaPhaseDAO.deleteById(empReaId);
 	}
 
 	@Before
 	public void prepareAllEntityBefore() {
 
-		// Init GpProjetManager
 		GpProjectManager emp = new GpProjectManager();
 		Assert.assertNull(emp.getId());
 		emp.setFileNumber("1050");
@@ -95,12 +94,12 @@ public class GpPhaseDAOTest {
 		emp.setPhoneNumber("0256897856");
 		emp.setPassword("mySecondPassword");
 		emp.setEmail("segolene.royal@gouv.fr");
-		emp.setLogin("sego.royal");
-		emp = empDAO.create(emp);
+		emp.setLogin("segos.royal");
+		emp = this.empDAO.create(emp);
 
-		this.pmTest = new GpProjectManager();
-		this.pmTest = emp;
-		assertNotNull(this.pmTest.getId());
+		this.empTest = new GpProjectManager();
+		this.empTest = emp;
+		assertNotNull(this.empTest.getId());
 
 		// création organisation
 
@@ -128,7 +127,7 @@ public class GpPhaseDAOTest {
 		project.setAmount(5623.66);
 		project.setCreationDate(new Date());
 		project.setGpOrganization(this.orgTest);
-		project.setGpChefProjet(this.pmTest);
+		project.setGpChefProjet(this.empTest);
 		project = this.projectDAO.create(project);
 		Assert.assertNotNull(project.getId());
 
@@ -146,23 +145,27 @@ public class GpPhaseDAOTest {
 		phase.setGpProject(pjTest);
 		phase = this.phaseDAO.create(phase);
 		Assert.assertNotNull(phase.getId());
+		
+		this.phaseTest = phase;
 
-		this.phaseIdForAllTest = phase.getId();
+		GpEmpReaPhase empReaPhase = new GpEmpReaPhase();
+		empReaPhase.setCreationDate(new Date());
+		empReaPhase.setGpEmployee(empTest);
+		empReaPhase.setGpPhase(phaseTest);
+		empReaPhase = empReaPhaseDAO.create(empReaPhase);
+
+		this.emReaPhaseIdForAllTest = empReaPhase.getId();
 	}
 
 	@After
 	public void deleteAllEntityAfter() {
-
-		this.phaseDAO.findById(this.phaseIdForAllTest);
-		if (!Objects.isNull(this.pmTest.getId())) {
-			this.empDAO.deleteById(this.pmTest.getId());
+		this.empReaPhaseDAO.deleteById(this.emReaPhaseIdForAllTest);
+		if (!Objects.isNull(this.emReaPhaseCreateIdTest)) {
+			this.empDAO.deleteById(this.empTest.getId());
 		}
-		if (!Objects.isNull(this.orgTest)) {
+		if (!Objects.isNull(this.empTest.getId())) {
+			this.empDAO.deleteById(this.empTest.getId());
 		}
-		if (!Objects.isNull(this.pmTest.getId())) {
-			this.projectDAO.deleteById(this.pjTest.getId());
-		}
-
 	}
 
 }

@@ -6,6 +6,8 @@ import java.util.List;
 public class GpEmployee implements IEntity {
 	private static final long serialVersionUID = 1L;
 
+	public static final  String GP_EMPLOYEE_TABLE_NAME = "GP_EMPLOYEE";
+	
 	private Integer id;
 
 	private Date creationDate;

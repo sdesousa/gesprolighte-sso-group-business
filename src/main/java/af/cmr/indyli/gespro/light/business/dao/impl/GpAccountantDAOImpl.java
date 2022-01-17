@@ -79,13 +79,6 @@ public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant>
 		return empList;
 	}
 
-	@Override
-	public void deleteById(Integer empId) {
-		String REQ_SQL = "DELETE FROM  GP_EMPLOYEE WHERE EMP_ID = ?";
-		Object[] tabParam = { empId };
-		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
-	}
-
 	public GpAccountant findById(Integer empId) {
 		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
 		Object[] tabParam = { empId };
@@ -118,5 +111,10 @@ public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant>
 			}
 		}
 		return foundEmp;
+	}
+
+	@Override
+	public String getCurrentTableName() {
+		return "GP_ACCOUNTANT";
 	}
 }

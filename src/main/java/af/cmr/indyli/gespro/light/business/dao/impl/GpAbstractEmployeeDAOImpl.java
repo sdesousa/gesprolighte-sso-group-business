@@ -3,9 +3,10 @@ package af.cmr.indyli.gespro.light.business.dao.impl;
 import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpEmployeeDAO;
+import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 import af.cmr.indyli.gespro.light.business.entity.IEntity;
 
-public class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implements IGpEmployeeDAO<Entity>{
+public abstract class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implements IGpEmployeeDAO<Entity>{
 
 	private GpEntityManager entityManager = new GpEntityManager();
 	@Override
@@ -25,6 +26,15 @@ public class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implements IGpEmp
 
 	@Override
 	public void deleteById(Integer empId) {
+		String REQ_SQL = "DELETE FROM "+this.getCurrentTableName()+" WHERE EMP_ID = ?";
+    	Object[] tabParam = {empId};
+    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+    	//On supprime ensuite dans la table mere
+    	if (!this.getCurrentTableName().equals(GpEmployee.GP_EMPLOYEE_TABLE_NAME)) {
+    		String REQ_SQL_EMP = "DELETE FROM "+ GpEmployee.GP_EMPLOYEE_TABLE_NAME +" WHERE EMP_ID = ?";
+        	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_EMP, tabParam);
+    	}
+    	
 	}
 
 	@Override
@@ -47,5 +57,7 @@ public class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implements IGpEmp
 	public void setEntityManager(GpEntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
+	
+	public abstract String getCurrentTableName();
 
 }

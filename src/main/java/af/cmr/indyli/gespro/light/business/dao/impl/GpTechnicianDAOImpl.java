@@ -82,12 +82,6 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 		return empList;
 	}
 
-	public void deleteById(Integer empId) {
-		String REQ_SQL = "DELETE FROM GP_EMPLOYEE WHERE EMP_ID = ?";
-		Object[] tabParam = { empId };
-		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
-	}
-
 	public GpTechnician findById(Integer empId) {
 		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN AS tc JOIN GP_EMPLOYEE AS emp WHERE tc.EMP_ID=emp.EMP_ID AND tc.EMP_ID = ?";
 		Object[] tabParam = { empId };
@@ -124,5 +118,10 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 			}
 		}
 		return foundEmp;
+	}
+
+	@Override
+	public String getCurrentTableName() {
+		return "GP_TECHNICIAN";
 	}
 }

@@ -78,16 +78,6 @@ public class GpProjectManagerDAOImpl extends GpAbstractEmployeeDAOImpl<GpProject
 	}
 
 	@Override
-	public void deleteById(Integer empId) {
-		String REQ_SQL = "DELETE FROM GP_PROJECT_MANAGER WHERE EMP_ID = ?";
-    	Object[] tabParam = {empId};
-    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
-    	//On supprime ensuite dans la table mere
-    	String REQ_SQL_EMP = "DELETE FROM GP_EMPLOYEE WHERE EMP_ID = ?";
-    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_EMP, tabParam);
-	}
-
-	@Override
 	public GpProjectManager findById(Integer empId) {
 		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
 		Object[] tabParam = {empId};
@@ -120,5 +110,10 @@ public class GpProjectManagerDAOImpl extends GpAbstractEmployeeDAOImpl<GpProject
 			}
         }
 		return foundEmp;
+	}
+
+	@Override
+	public String getCurrentTableName() {
+		return "GP_PROJECT_MANAGER";
 	}
 }

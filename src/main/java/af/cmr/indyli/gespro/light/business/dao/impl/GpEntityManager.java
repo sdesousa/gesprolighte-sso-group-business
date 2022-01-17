@@ -119,10 +119,10 @@ public class GpEntityManager {
 	}
 	/**
 	 * Remonte l'identifiant d'un enregistrement par une colonne de type unique
-	 * @param tableName
-	 * @param whereColumnName
-	 * @param valueWhereColumnName
-	 * @param keyColumnName
+	 * @param tableName : Nom de la table concernée par la recherche
+	 * @param whereColumnName : Colonne concernee par la clause where
+	 * @param valueWhereColumnName : Valeur correspondante de recherche
+	 * @param keyColumnName : Cle primaire recherchée
 	 * @return
 	 */
 	public Integer findIdByAnyColumn(String tableName,String whereColumnName,Object valueWhereColumnName,String keyColumnName) {

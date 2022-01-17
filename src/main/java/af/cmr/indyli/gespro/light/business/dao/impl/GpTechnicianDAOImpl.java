@@ -9,26 +9,25 @@ import java.util.List;
 import af.cmr.indyli.gespro.light.business.dao.IGpTechnicianDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpTechnician;
 
-public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
-	private GpEntityManager entityManager = new GpEntityManager();
+public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician> implements IGpTechnicianDAO {
 
 	public GpTechnician create(GpTechnician emp) {
 		try {
 			// On demarre une transaction
-			this.entityManager.getDbConnect().setAutoCommit(false);
+			this.getEntityManager().getDbConnect().setAutoCommit(false);
 			// On commence par insérer dans la table mère avant d'inserer dans la table
 			// fille
 			String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
 			Object[] tabParam = { emp.getFileNumber(), emp.getLastname(), emp.getFirstname(), emp.getPhoneNumber(),
 					emp.getPassword(), new Date(), emp.getEmail(), emp.getLogin() };
-			this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
-			Integer empId = entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
+			this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+			Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
 			// On insere maintenant dans la table GP_TECHNICIAN
 			String REQ_SQL_PM = "INSERT INTO GP_TECHNICIAN ( EMP_ID, LAST_DIPLOMA, GRADUATION_YEAR) VALUES (?,?,?)";
 			Object[] tabParamPM = { empId, emp.getLastDiploma(), emp.getGraduationYear() };
-			this.entityManager.updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
+			this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
 			emp.setId(empId);
-			this.entityManager.getDbConnect().setAutoCommit(true);
+			this.getEntityManager().getDbConnect().setAutoCommit(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,13 +38,13 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 		String REQ_SQL = "UPDATE FROM GP_EMPLOYEE SET LASTNAME=? , FIRSTNAME=? , PHONE_NUMBER=? ,PASSWORD = ? ,EMAIL=? ,LOGIN=?     WHERE EMP_ID = ?";
 		Object[] tabParam = { emp.getLastname(), emp.getFirstname(), emp.getPhoneNumber(), emp.getPassword(),
 				emp.getEmail(), emp.getLogin(), emp.getId() };
-		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 
 	}
 
 	public List<GpTechnician> findAll() {
 		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN AS tc JOIN GP_EMPLOYEE AS emp WHERE tc.EMP_ID=emp.EMP_ID";
-		ResultSet resultat = this.entityManager.exec(REQ_SQL);
+		ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
 		List<GpTechnician> empList = new ArrayList<GpTechnician>();
 		if (resultat != null) {
 			try {
@@ -86,13 +85,13 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 	public void deleteById(Integer empId) {
 		String REQ_SQL = "DELETE FROM GP_EMPLOYEE WHERE EMP_ID = ?";
 		Object[] tabParam = { empId };
-		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
 	public GpTechnician findById(Integer empId) {
 		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN AS tc JOIN GP_EMPLOYEE AS emp WHERE tc.EMP_ID=emp.EMP_ID AND tc.EMP_ID = ?";
 		Object[] tabParam = { empId };
-		ResultSet resultat = this.entityManager.selectAvecParamGenerique(REQ_SQL, tabParam);
+		ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
 		GpTechnician foundEmp = new GpTechnician();
 		if (resultat != null) {
 			try {
@@ -126,5 +125,4 @@ public class GpTechnicianDAOImpl implements IGpTechnicianDAO {
 		}
 		return foundEmp;
 	}
-
 }

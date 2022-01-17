@@ -5,18 +5,18 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpDirecteurDAO;
-import af.cmr.indyli.gespro.light.business.dao.impl.GpDirecteurDAOImpl;
-import af.cmr.indyli.gespro.light.business.entity.GpDirecteur;
+import af.cmr.indyli.gespro.light.business.dao.IGpDirectorDAO;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpDirectorDAOImpl;
+import af.cmr.indyli.gespro.light.business.entity.GpDirector;
 
-public class GpDirecteurDAOTest {
+public class GpDirectorDAOTest {
 
-	private IGpDirecteurDAO empDirecDAO = new GpDirecteurDAOImpl();
+	private IGpDirectorDAO empDirecDAO = new GpDirectorDAOImpl();
 
 	@Test
 	public void testCreateDirecteurWithSuccess() {
 		// Given
-		GpDirecteur emp = new GpDirecteur();
+		GpDirector emp = new GpDirector();
 		Assert.assertNull(emp.getId());
 		emp.setFileNumber("2026");
 		emp.setLastname("JOBDirec");
@@ -38,7 +38,7 @@ public class GpDirecteurDAOTest {
 		// Given
 
 		// When
-		List<GpDirecteur> empsDirec = this.empDirecDAO.findAll();
+		List<GpDirector> empsDirec = this.empDirecDAO.findAll();
 		// Then
 		Assert.assertTrue(empsDirec.size() > 0);
 	}
@@ -49,7 +49,7 @@ public class GpDirecteurDAOTest {
 		Integer empId = 30;
 
 		// When
-		GpDirecteur emp = this.empDirecDAO.findById(empId);
+		GpDirector emp = this.empDirecDAO.findById(empId);
 		// Then
 		Assert.assertNotNull(emp.getId());
 	}
@@ -57,7 +57,7 @@ public class GpDirecteurDAOTest {
 	@Test
 	public void testDeleteDirecteur() {
 		// Given
-		GpDirecteur emp = new GpDirecteur();
+		GpDirector emp = new GpDirector();
 		Integer empId;
 		emp.setFileNumber("2027");
 		emp.setLastname("TCTDirec2");

@@ -53,7 +53,7 @@ public class GpProjectDAOImpl implements IGpProjectDAO<GpProject> {
 					double amount = resultat.getDouble("AMOUNT");
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					Date updateDate = resultat.getDate("CREATION_DATE");
-					Integer orgId = resultat.getInt("ORG_ID");
+					//Integer orgId = resultat.getInt("ORG_ID");
 					Integer empId = resultat.getInt("EMP_ID");
 					GpProject foundProject = new GpProject();
 
@@ -105,7 +105,7 @@ public class GpProjectDAOImpl implements IGpProjectDAO<GpProject> {
 					double amount = resultat.getDouble("AMOUNT");
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					Date updateDate = resultat.getDate("CREATION_DATE");
-					Integer orgId = resultat.getInt("ORG_ID");
+					//Integer orgId = resultat.getInt("ORG_ID");
 					Integer empId = resultat.getInt("EMP_ID");
 
 					foundProject.setId(projectId);

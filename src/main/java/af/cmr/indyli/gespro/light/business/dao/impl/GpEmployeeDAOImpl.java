@@ -9,16 +9,14 @@ import java.util.List;
 import af.cmr.indyli.gespro.light.business.dao.IGpEmployeeDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 
-public class GpEmployeeDAOImpl implements IGpEmployeeDAO<GpEmployee>{
+public class GpEmployeeDAOImpl extends GpAbstractEmployeeDAOImpl<GpEmployee> implements IGpEmployeeDAO<GpEmployee>{
 
-	private GpEntityManager entityManager = new GpEntityManager();
-	
 	@Override
 	public GpEmployee create(GpEmployee emp) {
 	    	String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
 	    	Object[] tabParam = {emp.getFileNumber(),emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),new Date(),emp.getEmail(),emp.getLogin()};
-	    	this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
-	    	Integer empId = entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
+	    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+	    	Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
 	    	emp.setId(empId);
 		return emp;
 	}
@@ -27,13 +25,13 @@ public class GpEmployeeDAOImpl implements IGpEmployeeDAO<GpEmployee>{
 	public void update(GpEmployee emp) {
 		String REQ_SQL = "UPDATE FROM GP_EMPLOYEE SET LASTNAME=? , FIRSTNAME=? , PHONE_NUMBER=? ,PASSWORD = ? ,EMAIL=? ,LOGIN=?     WHERE EMP_ID = ?";
     	Object[] tabParam = {emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),emp.getEmail(),emp.getLogin(),emp.getId()};
-    	this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
 	@Override
 	public List<GpEmployee> findAll() {
 		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE";
-    	ResultSet resultat = this.entityManager.exec(REQ_SQL);
+    	ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
     	List<GpEmployee> empList = new ArrayList<GpEmployee>();
     	if (resultat != null) {
             try {
@@ -71,14 +69,14 @@ public class GpEmployeeDAOImpl implements IGpEmployeeDAO<GpEmployee>{
 	public void deleteById(Integer empId) {
 		String REQ_SQL = "DELETE FROM GP_EMPLOYEE WHERE EMP_ID = ?";
     	Object[] tabParam = {empId};
-    	this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
 	@Override
 	public GpEmployee findById(Integer empId) {
 		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
 		Object[] tabParam = {empId};
-    	ResultSet resultat = this.entityManager.selectAvecParamGenerique(REQ_SQL, tabParam);
+    	ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
     	GpEmployee foundEmp = new GpEmployee();
     	if (resultat != null) {
             try {

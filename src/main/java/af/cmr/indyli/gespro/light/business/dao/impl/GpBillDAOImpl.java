@@ -9,7 +9,7 @@ import af.cmr.indyli.gespro.light.business.dao.IGpBillDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpBill;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 
-public class GpBillDAOImpl implements IGpBillDAO<GpBill> {
+public class GpBillDAOImpl implements IGpBillDAO {
 
 	private GpEntityManager entityManager = new GpEntityManager();
 

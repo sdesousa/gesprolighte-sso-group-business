@@ -5,18 +5,18 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpComptableDAO;
-import af.cmr.indyli.gespro.light.business.dao.impl.GpComptableDAOImpl;
-import af.cmr.indyli.gespro.light.business.entity.GpComptable;
+import af.cmr.indyli.gespro.light.business.dao.IGpAccountantDAO;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpAccountantDAOImpl;
+import af.cmr.indyli.gespro.light.business.entity.GpAccountant;
 
-public class GpComptableDAOTest {
+public class GpAccountantDAOTest {
 
-	private IGpComptableDAO empAccDAO = new GpComptableDAOImpl();
+	private IGpAccountantDAO empAccDAO = new GpAccountantDAOImpl();
 
 	@Test
 	public void testCreateComptableWithSuccess() {
 		// Given
-		GpComptable emp = new GpComptable();
+		GpAccountant emp = new GpAccountant();
 		Assert.assertNull(emp.getId());
 		emp.setFileNumber("2028");
 		emp.setLastname("JOBAcc");
@@ -38,7 +38,7 @@ public class GpComptableDAOTest {
 		// Given
 
 		// When
-		List<GpComptable> empsAcc = this.empAccDAO.findAll();
+		List<GpAccountant> empsAcc = this.empAccDAO.findAll();
 		// Then
 		Assert.assertTrue(empsAcc.size() > 0);
 	}
@@ -49,7 +49,7 @@ public class GpComptableDAOTest {
 		Integer empId = 53;
 
 		// When
-		GpComptable emp = this.empAccDAO.findById(empId);
+		GpAccountant emp = this.empAccDAO.findById(empId);
 		// Then
 		Assert.assertNotNull(emp.getId());
 	}
@@ -57,7 +57,7 @@ public class GpComptableDAOTest {
 	@Test
 	public void testDeleteComptable() {
 		// Given
-		GpComptable emp = new GpComptable();
+		GpAccountant emp = new GpAccountant();
 		Integer empId;
 		emp.setFileNumber("2028");
 		emp.setLastname("TCTAcc2");

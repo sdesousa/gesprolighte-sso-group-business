@@ -6,47 +6,45 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpDirecteurDAO;
-import af.cmr.indyli.gespro.light.business.entity.GpDirecteur;
+import af.cmr.indyli.gespro.light.business.dao.IGpDirectorDAO;
+import af.cmr.indyli.gespro.light.business.entity.GpDirector;
 
-public class GpDirecteurDAOImpl implements IGpDirecteurDAO {
+public class GpDirectorDAOImpl extends GpAbstractEmployeeDAOImpl<GpDirector> implements IGpDirectorDAO {
 
-	private GpEntityManager entityManager = new GpEntityManager();
-
-	public GpDirecteur create(GpDirecteur emp) {
+	public GpDirector create(GpDirector emp) {
 		try {
 			// On demarre une transaction
-			this.entityManager.getDbConnect().setAutoCommit(false);
+			this.getEntityManager().getDbConnect().setAutoCommit(false);
 			// On commence par insérer dans la table mère avant d'inserer dans la table
 			// fille
 			String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
 			Object[] tabParam = { emp.getFileNumber(), emp.getLastname(), emp.getFirstname(), emp.getPhoneNumber(),
 					emp.getPassword(), new Date(), emp.getEmail(), emp.getLogin() };
-			this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
-			Integer empId = entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
+			this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+			Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
 			// On insere maintenant dans la table GP_DIRECTOR
 			String REQ_SQL_PM = "INSERT INTO GP_DIRECTOR ( EMP_ID) VALUES (?)";
 			Object[] tabParamPM = { empId };
-			this.entityManager.updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
+			this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
 			emp.setId(empId);
-			this.entityManager.getDbConnect().setAutoCommit(true);
+			this.getEntityManager().getDbConnect().setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return emp;
 	}
 
-	public void update(GpDirecteur emp) {
+	public void update(GpDirector emp) {
 		String REQ_SQL = "UPDATE FROM GP_EMPLOYEE SET LASTNAME=? , FIRSTNAME=? , PHONE_NUMBER=? ,PASSWORD = ? ,EMAIL=? ,LOGIN=?     WHERE EMP_ID = ?";
 		Object[] tabParam = { emp.getLastname(), emp.getFirstname(), emp.getPhoneNumber(), emp.getPassword(),
 				emp.getEmail(), emp.getLogin(), emp.getId() };
-		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
-	public List<GpDirecteur> findAll() {
+	public List<GpDirector> findAll() {
 		String REQ_SQL = "SELECT * FROM GP_DIRECTOR AS direct JOIN GP_EMPLOYEE AS emp WHERE direct.EMP_ID=emp.EMP_ID";
-		ResultSet resultat = this.entityManager.exec(REQ_SQL);
-		List<GpDirecteur> empList = new ArrayList<GpDirecteur>();
+		ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
+		List<GpDirector> empList = new ArrayList<GpDirector>();
 		if (resultat != null) {
 			try {
 				while (resultat.next()) {
@@ -59,7 +57,7 @@ public class GpDirecteurDAOImpl implements IGpDirecteurDAO {
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
-					GpDirecteur foundEmp = new GpDirecteur();
+					GpDirector foundEmp = new GpDirector();
 					foundEmp.setId(empId);
 					foundEmp.setFileNumber(fileNumber);
 					foundEmp.setLastname(lastname);
@@ -82,14 +80,14 @@ public class GpDirecteurDAOImpl implements IGpDirecteurDAO {
 	public void deleteById(Integer empId) {
 		String REQ_SQL = "DELETE FROM  GP_DIRECTOR WHERE EMP_ID = ?";
 		Object[] tabParam = { empId };
-		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
-	public GpDirecteur findById(Integer empId) {
+	public GpDirector findById(Integer empId) {
 		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
 		Object[] tabParam = { empId };
-		ResultSet resultat = this.entityManager.selectAvecParamGenerique(REQ_SQL, tabParam);
-		GpDirecteur foundEmp = new GpDirecteur();
+		ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
+		GpDirector foundEmp = new GpDirector();
 		if (resultat != null) {
 			try {
 				while (resultat.next()) {

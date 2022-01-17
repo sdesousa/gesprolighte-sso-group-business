@@ -2,7 +2,9 @@ package af.cmr.indyli.gespro.light.business.dao.test;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpBillDAO;
@@ -12,7 +14,9 @@ import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 
 public class GpBillDAOTest {
 
-	private IGpBillDAO<GpBill> billDAO = new GpBillDAOImpl();
+	private IGpBillDAO billDAO = new GpBillDAOImpl();
+	
+	private Integer createdBillId = null;
 
 	@Test
 	public void testCreateBillWithSuccess() {
@@ -86,7 +90,16 @@ public class GpBillDAOTest {
 		Assert.assertNotNull(bill.getId());
 		// Then
 		billDAO.deleteById(bill.getId());
-
+	}
+	
+	@Before
+	public void prepareAllEntityBefore() {
+		//Créer ici toutes les entites requises
+	}
+	
+	@After
+	public void deleteAllEntityAfter() {
+		//Supprimer ici toutes les entités qui ont été crées
 	}
 
 }

@@ -6,47 +6,47 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpComptableDAO;
-import af.cmr.indyli.gespro.light.business.entity.GpComptable;
+import af.cmr.indyli.gespro.light.business.dao.IGpAccountantDAO;
+import af.cmr.indyli.gespro.light.business.entity.GpAccountant;
 
-public class GpComptableDAOImpl implements IGpComptableDAO {
+public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant> implements IGpAccountantDAO {
 
-	private GpEntityManager entityManager = new GpEntityManager();
+	
 
-	public GpComptable create(GpComptable emp) {
+	public GpAccountant create(GpAccountant emp) {
 		try {
 			// On demarre une transaction
-			this.entityManager.getDbConnect().setAutoCommit(false);
+			this.getEntityManager().getDbConnect().setAutoCommit(false);
 			// On commence par insérer dans la table mère avant d'inserer dans la table
 			// fille
 			String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
 			Object[] tabParam = { emp.getFileNumber(), emp.getLastname(), emp.getFirstname(), emp.getPhoneNumber(),
 					emp.getPassword(), new Date(), emp.getEmail(), emp.getLogin() };
-			this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
-			Integer empId = entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
+			this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+			Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
 			// On insere maintenant dans la table GP_ACCOUNTANT
 			String REQ_SQL_PM = "INSERT INTO GP_ACCOUNTANT ( EMP_ID) VALUES (?)";
 			Object[] tabParamPM = { empId };
-			this.entityManager.updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
+			this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
 			emp.setId(empId);
-			this.entityManager.getDbConnect().setAutoCommit(true);
+			this.getEntityManager().getDbConnect().setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return emp;
 	}
 
-	public void update(GpComptable emp) {
+	public void update(GpAccountant emp) {
 		String REQ_SQL = "UPDATE FROM GP_EMPLOYEE SET LASTNAME=? , FIRSTNAME=? , PHONE_NUMBER=? ,PASSWORD = ? ,EMAIL=? ,LOGIN=?     WHERE EMP_ID = ?";
 		Object[] tabParam = { emp.getLastname(), emp.getFirstname(), emp.getPhoneNumber(), emp.getPassword(),
 				emp.getEmail(), emp.getLogin(), emp.getId() };
-		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
-	public List<GpComptable> findAll() {
+	public List<GpAccountant> findAll() {
 		String REQ_SQL = "SELECT * FROM GP_ACCOUNTANT AS acc JOIN GP_EMPLOYEE AS emp WHERE acc.EMP_ID=emp.EMP_ID";
-		ResultSet resultat = this.entityManager.exec(REQ_SQL);
-		List<GpComptable> empList = new ArrayList<GpComptable>();
+		ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
+		List<GpAccountant> empList = new ArrayList<GpAccountant>();
 		if (resultat != null) {
 			try {
 				while (resultat.next()) {
@@ -59,7 +59,7 @@ public class GpComptableDAOImpl implements IGpComptableDAO {
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
-					GpComptable foundEmp = new GpComptable();
+					GpAccountant foundEmp = new GpAccountant();
 					foundEmp.setId(empId);
 					foundEmp.setFileNumber(fileNumber);
 					foundEmp.setLastname(lastname);
@@ -79,17 +79,18 @@ public class GpComptableDAOImpl implements IGpComptableDAO {
 		return empList;
 	}
 
+	@Override
 	public void deleteById(Integer empId) {
 		String REQ_SQL = "DELETE FROM  GP_EMPLOYEE WHERE EMP_ID = ?";
 		Object[] tabParam = { empId };
-		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
-	public GpComptable findById(Integer empId) {
+	public GpAccountant findById(Integer empId) {
 		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
 		Object[] tabParam = { empId };
-		ResultSet resultat = this.entityManager.selectAvecParamGenerique(REQ_SQL, tabParam);
-		GpComptable foundEmp = new GpComptable();
+		ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
+		GpAccountant foundEmp = new GpAccountant();
 		if (resultat != null) {
 			try {
 				while (resultat.next()) {

@@ -14,7 +14,7 @@ import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
 public class GpProjectDAOTest {
 
-	private IGpProjectDAO<GpProject> projectDAO = new GpProjectDAOImpl();
+	private IGpProjectDAO projectDAO = new GpProjectDAOImpl();
 
 	@Test
 	public void testCreateProjectWithSuccess() {

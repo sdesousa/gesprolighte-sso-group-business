@@ -10,7 +10,7 @@ import af.cmr.indyli.gespro.light.business.dao.IGpPhaseDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 import af.cmr.indyli.gespro.light.business.entity.GpProject;
 
-public class GpPhaseDAOImpl implements IGpPhaseDAO<GpPhase> {
+public class GpPhaseDAOImpl implements IGpPhaseDAO {
 
 	private GpEntityManager entityManager = new GpEntityManager();
 

@@ -13,7 +13,7 @@ import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 
 public class GpDeliverableDAOTest {
 
-	private IGpDeliverableDAO<GpDeliverable> deliverableDAO = new GpDeliverableDAOImpl();
+	private IGpDeliverableDAO deliverableDAO = new GpDeliverableDAOImpl();
 
 	@Test
 	public void testCreateDeliverableWithSuccess() {

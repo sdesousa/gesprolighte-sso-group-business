@@ -2,12 +2,12 @@ package af.cmr.indyli.gespro.light.business.dao;
 
 import java.util.List;
 
-import af.cmr.indyli.gespro.light.business.entity.IEntity;
+import af.cmr.indyli.gespro.light.business.entity.GpProject;
 
-public interface IGpProjectDAO <Entity extends IEntity> {
-	public Entity create(Entity project);
-	public void update(Entity project);
-	public List<Entity> findAll();
+public interface IGpProjectDAO {
+	public GpProject create(GpProject project);
+	public void update(GpProject project);
+	public List<GpProject> findAll();
 	public void deleteById(Integer projectId);
-	public Entity findById(Integer projectId);
+	public GpProject findById(Integer projectId);
 }

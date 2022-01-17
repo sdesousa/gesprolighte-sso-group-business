@@ -13,7 +13,7 @@ import af.cmr.indyli.gespro.light.business.entity.GpProject;
 
 public class GpPhaseDAOTest {
 
-	private IGpPhaseDAO<GpPhase> phaseDAO = new GpPhaseDAOImpl();
+	private IGpPhaseDAO phaseDAO = new GpPhaseDAOImpl();
 
 	@Test
 	public void testCreatePhaseWithSuccess() {

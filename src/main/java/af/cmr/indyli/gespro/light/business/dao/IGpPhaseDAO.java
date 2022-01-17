@@ -2,16 +2,16 @@ package af.cmr.indyli.gespro.light.business.dao;
 
 import java.util.List;
 
-import af.cmr.indyli.gespro.light.business.entity.IEntity;
+import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 
-public interface IGpPhaseDAO<Entity extends IEntity> {
-	public Entity create(Entity phase);
+public interface IGpPhaseDAO {
+	public GpPhase create(GpPhase phase);
 
-	public void update(Entity phase);
+	public void update(GpPhase phase);
 
-	public List<Entity> findAll();
+	public List<GpPhase> findAll();
 
 	public void deleteById(Integer phaseId);
 
-	public Entity findById(Integer phaseId);
+	public GpPhase findById(Integer phaseId);
 }

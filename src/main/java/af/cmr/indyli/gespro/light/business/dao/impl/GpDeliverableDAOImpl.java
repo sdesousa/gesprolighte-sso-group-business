@@ -10,10 +10,10 @@ import af.cmr.indyli.gespro.light.business.dao.IGpDeliverableDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpDeliverable;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 
-public class GpDeliverableDAOImpl implements IGpDeliverableDAO<GpDeliverable> {
+public class GpDeliverableDAOImpl implements IGpDeliverableDAO {
 
 	private GpEntityManager entityManager = new GpEntityManager();
-
+ 
 	@Override
 	public GpDeliverable create(GpDeliverable deliverable) {
 		String REQ_SQL = "INSERT INTO GP_DELIVERABLE (DEL_CODE, LABEL, DESCRIPTION, DEL_PATH, CREATION_DATE, PHASE_ID) VALUES (?,?,?,?,?,?)";

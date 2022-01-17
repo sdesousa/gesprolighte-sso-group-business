@@ -8,23 +8,23 @@ import java.util.List;
 import af.cmr.indyli.gespro.light.business.dao.IGpOrganizationDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 
-public class GpOrganizationDAOImpl extends GpAbstractEmployeeDAOImpl<GpOrganization> implements IGpOrganizationDAO {
+public class GpOrganizationDAOImpl implements IGpOrganizationDAO {
+	private GpEntityManager entityManager = new GpEntityManager();
 
 	public GpOrganization create(GpOrganization org) {
 		try {
 			// On demarre une transaction
-			this.getEntityManager().getDbConnect().setAutoCommit(false);
+			this.entityManager.getDbConnect().setAutoCommit(false);
 			// On commence par insérer dans la table mère avant d'inserer dans la table
 			// fille
 			String REQ_SQL = "INSERT INTO GP_ORGANIZATION ( ORG_CODE, NAME, PHONE_NUMBER,CONTACT_NAME, CONTACT_EMAIL, ADR_WEB) VALUES (?,?,?,?,?,?)";
 			Object[] tabParam = { org.getOrgCode(), org.getName(), org.getPhoneNumber(), org.getContactName(),
 					org.getContactEmail(), org.getAdrWeb() };
-			this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+			this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 
-			Integer orgId = getEntityManager().findIdByAnyColumn("GP_Organization", "ORG_CODE", org.getOrgCode(),
-					"ORG_ID");
+			Integer orgId = entityManager.findIdByAnyColumn("GP_Organization", "ORG_CODE", org.getOrgCode(), "ORG_ID");
 			org.setId(orgId);
-			this.getEntityManager().getDbConnect().setAutoCommit(true);
+			this.entityManager.getDbConnect().setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -35,12 +35,12 @@ public class GpOrganizationDAOImpl extends GpAbstractEmployeeDAOImpl<GpOrganizat
 		String REQ_SQL = "UPDATE  GP_ORGANIZATION SET ORG_CODE=?, NAME=?, PHONE_NUMBER=?,CONTACT_NAME=?, CONTACT_EMAIL=?, ADR_WEB=?";
 		Object[] tabParam = { org.getOrgCode(), org.getName(), org.getPhoneNumber(), org.getContactName(),
 				org.getContactEmail(), org.getContactEmail(), org.getAdrWeb() };
-		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
 	public List<GpOrganization> findAll() {
 		String REQ_SQL = "SELECT * FROM GP_ORGANIZATION";
-		ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
+		ResultSet resultat = this.entityManager.exec(REQ_SQL);
 		List<GpOrganization> orgList = new ArrayList<GpOrganization>();
 		if (resultat != null) {
 			try {
@@ -75,7 +75,7 @@ public class GpOrganizationDAOImpl extends GpAbstractEmployeeDAOImpl<GpOrganizat
 	public GpOrganization findById(Integer orgId) {
 		String REQ_SQL = "SELECT * FROM GP_ORGANIZATION WHERE ORG_ID = ?";
 		Object[] tabParam = { orgId };
-		ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
+		ResultSet resultat = this.entityManager.selectAvecParamGenerique(REQ_SQL, tabParam);
 		GpOrganization org = new GpOrganization();
 		if (resultat != null) {
 			try {
@@ -108,10 +108,9 @@ public class GpOrganizationDAOImpl extends GpAbstractEmployeeDAOImpl<GpOrganizat
 	public void deleteById(Integer orgId) {
 		String REQ_SQL = "DELETE FROM GP_ORGANIZATION WHERE ORG_ID = ?";
 		Object[] tabParam = { orgId };
-		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
-	@Override
 	public String getCurrentTableName() {
 		return "GP_ORGANIZATION";
 	}

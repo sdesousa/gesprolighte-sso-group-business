@@ -3,7 +3,6 @@ package af.cmr.indyli.gespro.light.business.dao.test;
 import java.util.List;
 import java.util.Objects;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ public class GpAddressDAOTest {
 		// When
 		List<GpAddress> addrList = this.addressDAO.findAll();
 		// Then
-		Assert.assertTrue(addrList.size() == 0);
+		Assert.assertTrue(addrList.size() > 0);
 	}
 
 	@Before
@@ -44,7 +43,7 @@ public class GpAddressDAOTest {
 
 	}
 
-	@After
+	// @After
 	public void deleteAllEntityAfter() {
 		this.addressDAO.deleteById(this.addrIdForAllTest);
 		if (!Objects.isNull(this.createAddrId)) {

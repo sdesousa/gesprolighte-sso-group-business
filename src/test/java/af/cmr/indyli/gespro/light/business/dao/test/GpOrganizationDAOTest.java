@@ -28,10 +28,10 @@ public class GpOrganizationDAOTest {
 		organization.setName("ORG");
 		organization.setOrgCode("OMC");
 		organization.setPhoneNumber(1024);
-		organization = organizationDAO.create(organization);
 		// when
-		Assert.assertNotNull(organization.getId());
+		organization = organizationDAO.create(organization);
 		// Then
+		Assert.assertNotNull(organization.getId());
 
 	}
 

@@ -8,24 +8,24 @@ import java.util.List;
 import af.cmr.indyli.gespro.light.business.dao.IGpAddressDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpAddress;
 
-public class GpAddressDAOImpl extends GpAbstractEmployeeDAOImpl<GpAddress> implements IGpAddressDAO {
+public class GpAddressDAOImpl implements IGpAddressDAO {
+	private GpEntityManager entityManager = new GpEntityManager();
 
 	public GpAddress create(GpAddress addr) {
 		try {
 			// On demarre une transaction
-			this.getEntityManager().getDbConnect().setAutoCommit(false);
+			this.entityManager.getDbConnect().setAutoCommit(false);
 			// On commence par insérer dans la table mère avant d'inserer dans la table
 			// fille
 			String REQ_SQL = "INSERT INTO GP_ADDRESS (ADDRESS_ID, STREET_NUMBER, STREET_LABEL, ZIP_CODE,COUNTRY, IS_MAIN, ORG_ID, EMP_ID) VALUES (?,?,?,?,?,?,?,?)";
 			Object[] tabParam = { addr.getStreetNumber(), addr.getStreetLabel(), addr.getZipCode(), addr.getCountry(),
 					addr.getIsMain(), addr.getGpOrganization().getId(), addr.getGpEmployee().getId() };
-			this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+			this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 
-			Integer addrId = getEntityManager().findIdByAnyColumn("GP_ADDRESS", "ZIP_CODE", addr.getZipCode(),
-					"ADDRESS_ID");
+			Integer addrId = entityManager.findIdByAnyColumn("GP_ADDRESS", "ZIP_CODE", addr.getZipCode(), "ADDRESS_ID");
 			addr.setId(addrId);
 
-			this.getEntityManager().getDbConnect().setAutoCommit(true);
+			this.entityManager.getDbConnect().setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -36,12 +36,12 @@ public class GpAddressDAOImpl extends GpAbstractEmployeeDAOImpl<GpAddress> imple
 		String REQ_SQL = "UPDATE  GP_ADDRESS SET STREET_NUMBER=?, STREET_LABEL = ?, ZIP_CODE = ? ,`COUNTRY`= ? ,`IS_MAIN`= ? ,`ORG_ID`= ? ,`EMP_ID`= ?   WHERE EMP_ID = ?";
 		Object[] tabParam = { addr.getStreetNumber(), addr.getStreetLabel(), addr.getZipCode(), addr.getCountry(),
 				addr.getIsMain(), addr.getGpOrganization().getId(), addr.getGpEmployee().getId() };
-		this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
 	public List<GpAddress> findAll() {
 		String REQ_SQL = "SELECT * FROM GP_ADDRESS";
-		ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
+		ResultSet resultat = this.entityManager.exec(REQ_SQL);
 		List<GpAddress> addrList = new ArrayList<GpAddress>();
 		if (resultat != null) {
 			try {
@@ -72,9 +72,9 @@ public class GpAddressDAOImpl extends GpAbstractEmployeeDAOImpl<GpAddress> imple
 	}
 
 	public GpAddress findById(Integer addrId) {
-		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
+		String REQ_SQL = "SELECT * FROM GP_ADDRESS where ADDRESS_ID = ?";
 		Object[] tabParam = { addrId };
-		ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
+		ResultSet resultat = entityManager.selectAvecParamGenerique(REQ_SQL, tabParam);
 		GpAddress foundEmp = new GpAddress();
 		if (resultat != null) {
 			try {
@@ -102,8 +102,14 @@ public class GpAddressDAOImpl extends GpAbstractEmployeeDAOImpl<GpAddress> imple
 		return foundEmp;
 	}
 
-	@Override
 	public String getCurrentTableName() {
 		return "GP_ADDRESS";
+	}
+
+	@Override
+	public void deleteById(Integer addrId) {
+		String REQ_SQL = "DELETE FROM GP_ADDRESS WHERE ORG_ID = ?";
+		Object[] tabParam = { addrId };
+		this.entityManager.updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 }

@@ -13,7 +13,6 @@ public class FilePropertiesLoader {
             //load a properties file from class path, inside static method  
             prop.load(input); 
             return prop;
-
         } catch (IOException ex) {
             ex.printStackTrace();
         }

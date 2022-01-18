@@ -8,20 +8,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpAccountantDAO;
-import af.cmr.indyli.gespro.light.business.dao.impl.GpAccountantDAOImpl;
-import af.cmr.indyli.gespro.light.business.entity.GpAccountant;
+import af.cmr.indyli.gespro.light.business.dao.IGpDirectorDAO;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpDirectorDAOImpl;
+import af.cmr.indyli.gespro.light.business.entity.GpDirector;
 
-public class GpAccountantDAOTest {
+public class GpDirectorDAOTest {
 
-	private IGpAccountantDAO empDAO = new GpAccountantDAOImpl();
+	private IGpDirectorDAO empDAO = new GpDirectorDAOImpl();
 	private Integer pmIdForAllTest = null;
 	private Integer createPmId = null;
 	
 	@Test
 	public void testCreateEmployeeWithSuccess() {
 		//Given
-		GpAccountant emp = new GpAccountant();
+		GpDirector emp = new GpDirector();
 		Assert.assertNull(emp.getId());
 		emp.setFileNumber("1024");
 		emp.setLastname("HOLLANDE");
@@ -45,7 +45,7 @@ public class GpAccountantDAOTest {
 		//Given
 		
 		//When 
-		List<GpAccountant> emps = this.empDAO.findAll();
+		List<GpDirector> emps = this.empDAO.findAll();
 		
 		//Then
 		Assert.assertTrue(emps.size() >0);
@@ -57,8 +57,7 @@ public class GpAccountantDAOTest {
 		Integer empId = this.pmIdForAllTest;
 		
 		//When 
-		GpAccountant
-		emp = this.empDAO.findById(empId);
+		GpDirector emp = this.empDAO.findById(empId);
 		//Then
 		Assert.assertNotNull(emp);
 	}
@@ -73,13 +72,13 @@ public class GpAccountantDAOTest {
 		
 		
 		//Then
-		GpAccountant emp = this.empDAO.findById(empId);
+		GpDirector emp = this.empDAO.findById(empId);
 		Assert.assertNull(emp);
 	}
 	
 	@Before
 	public void prepareAllEntityBefore() {
-		GpAccountant emp = new GpAccountant();
+		GpDirector emp = new GpDirector();
 		Assert.assertNull(emp.getId());
 		emp.setFileNumber("1050");
 		emp.setLastname("Segolene");

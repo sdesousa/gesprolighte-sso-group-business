@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpProjectManagerDAO;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectManagerDAOImpl;
-import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
 public class GpProjectManagerDAOTest {
@@ -58,7 +57,7 @@ public class GpProjectManagerDAOTest {
 		Integer empId = this.pmIdForAllTest;
 		
 		//When 
-		GpEmployee emp = this.empDAO.findById(empId);
+		GpProjectManager emp = this.empDAO.findById(empId);
 		//Then
 		Assert.assertNotNull(emp);
 	}
@@ -73,7 +72,7 @@ public class GpProjectManagerDAOTest {
 		
 		
 		//Then
-		GpEmployee emp = this.empDAO.findById(empId);
+		GpProjectManager emp = this.empDAO.findById(empId);
 		Assert.assertNull(emp);
 	}
 	

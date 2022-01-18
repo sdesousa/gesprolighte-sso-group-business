@@ -78,8 +78,8 @@ public class GpEmployeeDAOTest {
 		GpEmployee emp = new GpEmployee();
 		Assert.assertNull(emp.getId());
 		emp.setFileNumber("2001");
-		emp.setLastname("Laurent");
-		emp.setFirstname("FABIUS");
+		emp.setLastname("FABIUS");
+		emp.setFirstname("Laurent");
 		emp.setPhoneNumber("0125698745");
 		emp.setPassword("myThirdPassword");
 		emp.setEmail("laurent.fabius@gouv.fr");

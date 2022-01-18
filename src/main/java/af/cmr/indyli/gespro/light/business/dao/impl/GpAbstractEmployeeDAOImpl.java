@@ -9,22 +9,19 @@ import af.cmr.indyli.gespro.light.business.entity.IEntity;
 public abstract class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implements IGpEmployeeDAO<Entity>{
 
 	private GpEntityManager entityManager = new GpEntityManager();
-	@Override
+	
 	public Entity create(Entity emp) {
 		return null;
 	}
 
-	@Override
 	public void update(Entity emp) {
 		
 	}
 
-	@Override
 	public List<Entity> findAll() {
 		return null;
 	}
 
-	@Override
 	public void deleteById(Integer empId) {
 		String REQ_SQL = "DELETE FROM "+this.getCurrentTableName()+" WHERE EMP_ID = ?";
     	Object[] tabParam = {empId};
@@ -37,12 +34,10 @@ public abstract class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implemen
     	
 	}
 
-	@Override
 	public Entity findById(Integer empId) {
 		return null;
 	}
 
-	@Override
 	public boolean ifEmpExistByFileNumberOrEmail(String fileNumber, String email,String login) {
 		Integer empIdForEmail = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", email, "EMP_ID");
 		Integer empIdForFileNumber = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "FILE_NUMBER", fileNumber, "EMP_ID");

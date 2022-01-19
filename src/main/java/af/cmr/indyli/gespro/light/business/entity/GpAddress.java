@@ -3,6 +3,7 @@ package af.cmr.indyli.gespro.light.business.entity;
 
 public class GpAddress implements IEntity {
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_ADDRESS_TABLE_NAME = "GP_ADDRESS";
 
 	private int id;
 
@@ -22,8 +23,6 @@ public class GpAddress implements IEntity {
 
 	public GpAddress() {
 	}
-
-
 
 	public String getCountry() {
 		return this.country;
@@ -84,8 +83,6 @@ public class GpAddress implements IEntity {
 	public Integer getId() {
 		return id;
 	}
-
-
 
 	public void setId(Integer id) {
 		this.id = id;

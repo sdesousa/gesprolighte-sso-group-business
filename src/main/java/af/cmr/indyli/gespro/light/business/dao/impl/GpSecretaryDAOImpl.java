@@ -18,7 +18,7 @@ public class GpSecretaryDAOImpl extends GpAbstractEmployeeDAOImpl<GpSecretary> i
 	    Object[] tabParam = {emp.getFileNumber(),emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),new Date(),emp.getEmail(),emp.getLogin()};
 	   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	   	Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
-	   	//On insere maintenant dans la table GP_ACCOUNTANT
+	   	//On insere maintenant dans la table GP_SECRETARY
 	   	String REQ_SQL_PM = "INSERT INTO GP_SECRETARY ( EMP_ID) VALUES (?)";
 	   	Object[] tabParamPM = {empId};
 	   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);

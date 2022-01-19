@@ -6,6 +6,7 @@ public class GpTechnician extends GpEmployee {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_TECHNICIAN_TABLE_NAME = "GP_TECHNICIAN";
 
 	private int graduationYear;
 

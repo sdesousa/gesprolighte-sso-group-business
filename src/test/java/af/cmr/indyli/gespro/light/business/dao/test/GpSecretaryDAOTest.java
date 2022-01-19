@@ -57,8 +57,7 @@ public class GpSecretaryDAOTest {
 		Integer empId = this.pmIdForAllTest;
 		
 		//When 
-		GpSecretary
-		emp = this.empDAO.findById(empId);
+		GpSecretary emp = this.empDAO.findById(empId);
 		//Then
 		Assert.assertNotNull(emp);
 	}

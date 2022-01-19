@@ -8,7 +8,6 @@ public interface IGpProjectManagerDAO extends IGpEmployeeDAO<GpProjectManager>{
 	public GpProjectManager create(GpProjectManager emp);
 	public void update(GpProjectManager emp);
 	public List<GpProjectManager> findAll();
-	public void deleteById(Integer empId);
 	public GpProjectManager findById(Integer empId);
 
 }

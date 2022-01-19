@@ -8,10 +8,9 @@ import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpTechnicianDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpTechnician;
-import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 
 public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician> implements IGpTechnicianDAO{
-
+	
 	@Override
 	public GpTechnician create(GpTechnician emp) {
 		String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
@@ -28,27 +27,36 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 
 	@Override
 	public List<GpTechnician> findAll() {
-		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN";
+		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN NATURAL JOIN GP_EMPLOYEE";
     	ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
     	List<GpTechnician> empList = new ArrayList<GpTechnician>();
     	if (resultat != null) {
             try {
-				while (resultat.next()) {
+            	while (resultat.next()) {
 					Integer empId = resultat.getInt("EMP_ID");
-					GpEmployee foundEmp = findById(empId);
-					GpTechnician foundTec = new GpTechnician();
-					foundTec.setId(empId);
-					foundTec.setFileNumber(foundEmp.getFileNumber());
-					foundTec.setLastname(foundEmp.getLastname());
-					foundTec.setFirstname(foundEmp.getFirstname());
-					foundTec.setCreationDate(foundEmp.getCreationDate());
-					foundTec.setPassword(foundEmp.getPassword());
-					foundTec.setPhoneNumber(foundEmp.getPhoneNumber());
-					foundTec.setEmail(foundEmp.getEmail());
-					foundTec.setLogin(foundEmp.getLogin());
-					foundTec.setLastDiploma(resultat.getString("LAST_DIPLOMA"));
-					foundTec.setGraduationYear(resultat.getInt("GRADUATION_YEAR"));
-					empList.add(foundTec);
+					String fileNumber = resultat.getString("FILE_NUMBER");
+					String lastname = resultat.getString("LASTNAME");
+					String firstname = resultat.getString("FIRSTNAME");
+					String phoneNumber = resultat.getString("PHONE_NUMBER");
+					String password = resultat.getString("PASSWORD");
+					Date creationDate = resultat.getDate("CREATION_DATE");
+					String email = resultat.getString("EMAIL");
+					String login = resultat.getString("LOGIN");
+					String lastDiploma = resultat.getString("LAST_DIPLOMA");
+					int graduationYear = resultat.getInt("GRADUATION_YEAR");
+					GpTechnician foundEmp = new GpTechnician();
+					foundEmp.setId(empId);
+					foundEmp.setFileNumber(fileNumber);
+					foundEmp.setLastname(lastname);
+					foundEmp.setFirstname(firstname);
+					foundEmp.setCreationDate(creationDate);
+					foundEmp.setPassword(password);
+					foundEmp.setPhoneNumber(phoneNumber);
+					foundEmp.setEmail(email);
+					foundEmp.setLogin(login);
+					foundEmp.setLastDiploma(lastDiploma);
+					foundEmp.setGraduationYear(graduationYear);
+					empList.add(foundEmp);
 				}
 				resultat.close();
 			} catch (SQLException e) {
@@ -60,34 +68,42 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 
 	@Override
 	public GpTechnician findById(Integer empId) {
-		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN where EMP_ID = ?";
+		String REQ_SQL = "SELECT * FROM GP_TECHNICIAN NATURAL JOIN GP_EMPLOYEE WHERE EMP_ID = ?";
 		Object[] tabParam = {empId};
     	ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
-    	GpTechnician foundTec = null;
+    	GpTechnician foundEmp = null;
     	if (resultat != null) {
             try {
 				while (resultat.next()) {
-					GpEmployeeDAOImpl empImpl = new GpEmployeeDAOImpl();
-					GpEmployee foundEmp = empImpl.findById(empId);
-					foundTec = new GpTechnician();
-					foundTec.setId(empId);
-					foundTec.setFileNumber(foundEmp.getFileNumber());
-					foundTec.setLastname(foundEmp.getLastname());
-					foundTec.setFirstname(foundEmp.getFirstname());
-					foundTec.setCreationDate(foundEmp.getCreationDate());
-					foundTec.setPassword(foundEmp.getPassword());
-					foundTec.setPhoneNumber(foundEmp.getPhoneNumber());
-					foundTec.setEmail(foundEmp.getEmail());
-					foundTec.setLogin(foundEmp.getLogin());
-					foundTec.setLastDiploma(resultat.getString("LAST_DIPLOMA"));
-					foundTec.setGraduationYear(resultat.getInt("GRADUATION_YEAR"));
+					foundEmp = new GpTechnician();
+					String fileNumber = resultat.getString("FILE_NUMBER");
+					String lastname = resultat.getString("LASTNAME");
+					String firstname = resultat.getString("FIRSTNAME");
+					String phoneNumber = resultat.getString("PHONE_NUMBER");
+					String password = resultat.getString("PASSWORD");
+					Date creationDate = resultat.getDate("CREATION_DATE");
+					String email = resultat.getString("EMAIL");
+					String login = resultat.getString("LOGIN");
+					String lastDiploma = resultat.getString("LAST_DIPLOMA");
+					int graduationYear = resultat.getInt("GRADUATION_YEAR");
+					foundEmp.setId(empId);
+					foundEmp.setFileNumber(fileNumber);
+					foundEmp.setLastname(lastname);
+					foundEmp.setFirstname(firstname);
+					foundEmp.setCreationDate(creationDate);
+					foundEmp.setPassword(password);
+					foundEmp.setPhoneNumber(phoneNumber);
+					foundEmp.setEmail(email);
+					foundEmp.setLogin(login);
+					foundEmp.setLastDiploma(lastDiploma);
+					foundEmp.setGraduationYear(graduationYear);
 				}
 				resultat.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
         }
-		return foundTec;
+		return foundEmp;
 	}
 
 	@Override

@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpSecretaryDAO;
-import af.cmr.indyli.gespro.light.business.entity.GpSecretary;
+import af.cmr.indyli.gespro.light.business.dao.IGpAdminDAO;
+import af.cmr.indyli.gespro.light.business.entity.GpAdmin;
 
-public class GpSecretaryDAOImpl extends GpAbstractEmployeeDAOImpl<GpSecretary> implements IGpSecretaryDAO{
+public class GpAdminDAOImpl extends GpAbstractEmployeeDAOImpl<GpAdmin> implements IGpAdminDAO{
 
 	@Override
-	public GpSecretary create(GpSecretary emp) {
+	public GpAdmin create(GpAdmin emp) {
 		String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
 	    Object[] tabParam = {emp.getFileNumber(),emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),new Date(),emp.getEmail(),emp.getLogin()};
 	   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	   	Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
-	   	//On insere maintenant dans la table GP_SECRETARY
-	   	String REQ_SQL_PM = "INSERT INTO GP_SECRETARY ( EMP_ID) VALUES (?)";
+	   	//On insere maintenant dans la table GP_ACCOUNTANT
+	   	String REQ_SQL_PM = "INSERT INTO GP_ADMIN ( EMP_ID) VALUES (?)";
 	   	Object[] tabParamPM = {empId};
 	   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
 	   	emp.setId(empId);
@@ -26,10 +26,10 @@ public class GpSecretaryDAOImpl extends GpAbstractEmployeeDAOImpl<GpSecretary> i
 	}
 
 	@Override
-	public List<GpSecretary> findAll() {
-		String REQ_SQL = "SELECT * FROM GP_SECRETARY NATURAL JOIN GP_EMPLOYEE";
+	public List<GpAdmin> findAll() {
+		String REQ_SQL = "SELECT * FROM GP_ADMIN NATURAL JOIN GP_EMPLOYEE";
     	ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
-    	List<GpSecretary> empList = new ArrayList<GpSecretary>();
+    	List<GpAdmin> empList = new ArrayList<GpAdmin>();
     	if (resultat != null) {
             try {
             	while (resultat.next()) {
@@ -42,7 +42,7 @@ public class GpSecretaryDAOImpl extends GpAbstractEmployeeDAOImpl<GpSecretary> i
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
-					GpSecretary foundEmp = new GpSecretary();
+					GpAdmin foundEmp = new GpAdmin();
 					foundEmp.setId(empId);
 					foundEmp.setFileNumber(fileNumber);
 					foundEmp.setLastname(lastname);
@@ -63,15 +63,15 @@ public class GpSecretaryDAOImpl extends GpAbstractEmployeeDAOImpl<GpSecretary> i
 	}
 
 	@Override
-	public GpSecretary findById(Integer empId) {
-		String REQ_SQL = "SELECT * FROM GP_SECRETARY NATURAL JOIN GP_EMPLOYEE WHERE EMP_ID = ?";
+	public GpAdmin findById(Integer empId) {
+		String REQ_SQL = "SELECT * FROM GP_ADMIN NATURAL JOIN GP_EMPLOYEE WHERE EMP_ID = ?";
 		Object[] tabParam = {empId};
     	ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
-    	GpSecretary foundEmp = null;
+    	GpAdmin foundEmp = null;
     	if (resultat != null) {
             try {
 				while (resultat.next()) {
-					foundEmp = new GpSecretary();
+					foundEmp = new GpAdmin();
 					String fileNumber = resultat.getString("FILE_NUMBER");
 					String lastname = resultat.getString("LASTNAME");
 					String firstname = resultat.getString("FIRSTNAME");
@@ -100,6 +100,6 @@ public class GpSecretaryDAOImpl extends GpAbstractEmployeeDAOImpl<GpSecretary> i
 
 	@Override
 	public String getCurrentTableName() {
-		return GpSecretary.GP_SECRETARY_TABLE_NAME;
+		return GpAdmin.GP_ADMIN_TABLE_NAME;
 	}
 }

@@ -8,7 +8,6 @@ import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpAccountantDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpAccountant;
-import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 
 public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant> implements IGpAccountantDAO{
 
@@ -28,24 +27,31 @@ public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant>
 
 	@Override
 	public List<GpAccountant> findAll() {
-		String REQ_SQL = "SELECT * FROM GP_ACCOUNTANT";
+		String REQ_SQL = "SELECT * FROM GP_ACCOUNTANT NATURAL JOIN GP_EMPLOYEE";
     	ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
     	List<GpAccountant> empList = new ArrayList<GpAccountant>();
     	if (resultat != null) {
             try {
-				while (resultat.next()) {
+            	while (resultat.next()) {
 					Integer empId = resultat.getInt("EMP_ID");
-					GpEmployee emp = findById(empId);
+					String fileNumber = resultat.getString("FILE_NUMBER");
+					String lastname = resultat.getString("LASTNAME");
+					String firstname = resultat.getString("FIRSTNAME");
+					String phoneNumber = resultat.getString("PHONE_NUMBER");
+					String password = resultat.getString("PASSWORD");
+					Date creationDate = resultat.getDate("CREATION_DATE");
+					String email = resultat.getString("EMAIL");
+					String login = resultat.getString("LOGIN");
 					GpAccountant foundEmp = new GpAccountant();
 					foundEmp.setId(empId);
-					foundEmp.setFileNumber(emp.getFileNumber());
-					foundEmp.setLastname(emp.getLastname());
-					foundEmp.setFirstname(emp.getFirstname());
-					foundEmp.setCreationDate(emp.getCreationDate());
-					foundEmp.setPassword(emp.getPassword());
-					foundEmp.setPhoneNumber(emp.getPhoneNumber());
-					foundEmp.setEmail(emp.getEmail());
-					foundEmp.setLogin(emp.getLogin());
+					foundEmp.setFileNumber(fileNumber);
+					foundEmp.setLastname(lastname);
+					foundEmp.setFirstname(firstname);
+					foundEmp.setCreationDate(creationDate);
+					foundEmp.setPassword(password);
+					foundEmp.setPhoneNumber(phoneNumber);
+					foundEmp.setEmail(email);
+					foundEmp.setLogin(login);
 					empList.add(foundEmp);
 				}
 				resultat.close();
@@ -58,13 +64,14 @@ public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant>
 
 	@Override
 	public GpAccountant findById(Integer empId) {
-		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
+		String REQ_SQL = "SELECT * FROM GP_ACCOUNTANT NATURAL JOIN GP_EMPLOYEE WHERE EMP_ID = ?";
 		Object[] tabParam = {empId};
     	ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
     	GpAccountant foundEmp = null;
     	if (resultat != null) {
             try {
 				while (resultat.next()) {
+					foundEmp = new GpAccountant();
 					String fileNumber = resultat.getString("FILE_NUMBER");
 					String lastname = resultat.getString("LASTNAME");
 					String firstname = resultat.getString("FIRSTNAME");
@@ -73,7 +80,6 @@ public class GpAccountantDAOImpl extends GpAbstractEmployeeDAOImpl<GpAccountant>
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
-					foundEmp = new GpAccountant();
 					foundEmp.setId(empId);
 					foundEmp.setFileNumber(fileNumber);
 					foundEmp.setLastname(lastname);

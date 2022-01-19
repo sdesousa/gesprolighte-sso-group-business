@@ -8,7 +8,6 @@ import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpDirectorDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpDirector;
-import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 
 public class GpDirectorDAOImpl extends GpAbstractEmployeeDAOImpl<GpDirector> implements IGpDirectorDAO{
 
@@ -28,24 +27,31 @@ public class GpDirectorDAOImpl extends GpAbstractEmployeeDAOImpl<GpDirector> imp
 
 	@Override
 	public List<GpDirector> findAll() {
-		String REQ_SQL = "SELECT * FROM GP_DIRECTOR";
+		String REQ_SQL = "SELECT * FROM GP_DIRECTOR NATURAL JOIN GP_EMPLOYEE";
     	ResultSet resultat = this.getEntityManager().exec(REQ_SQL);
     	List<GpDirector> empList = new ArrayList<GpDirector>();
     	if (resultat != null) {
             try {
-				while (resultat.next()) {
+            	while (resultat.next()) {
 					Integer empId = resultat.getInt("EMP_ID");
-					GpEmployee emp = findById(empId);
+					String fileNumber = resultat.getString("FILE_NUMBER");
+					String lastname = resultat.getString("LASTNAME");
+					String firstname = resultat.getString("FIRSTNAME");
+					String phoneNumber = resultat.getString("PHONE_NUMBER");
+					String password = resultat.getString("PASSWORD");
+					Date creationDate = resultat.getDate("CREATION_DATE");
+					String email = resultat.getString("EMAIL");
+					String login = resultat.getString("LOGIN");
 					GpDirector foundEmp = new GpDirector();
 					foundEmp.setId(empId);
-					foundEmp.setFileNumber(emp.getFileNumber());
-					foundEmp.setLastname(emp.getLastname());
-					foundEmp.setFirstname(emp.getFirstname());
-					foundEmp.setCreationDate(emp.getCreationDate());
-					foundEmp.setPassword(emp.getPassword());
-					foundEmp.setPhoneNumber(emp.getPhoneNumber());
-					foundEmp.setEmail(emp.getEmail());
-					foundEmp.setLogin(emp.getLogin());
+					foundEmp.setFileNumber(fileNumber);
+					foundEmp.setLastname(lastname);
+					foundEmp.setFirstname(firstname);
+					foundEmp.setCreationDate(creationDate);
+					foundEmp.setPassword(password);
+					foundEmp.setPhoneNumber(phoneNumber);
+					foundEmp.setEmail(email);
+					foundEmp.setLogin(login);
 					empList.add(foundEmp);
 				}
 				resultat.close();
@@ -58,13 +64,14 @@ public class GpDirectorDAOImpl extends GpAbstractEmployeeDAOImpl<GpDirector> imp
 
 	@Override
 	public GpDirector findById(Integer empId) {
-		String REQ_SQL = "SELECT * FROM GP_EMPLOYEE where EMP_ID = ?";
+		String REQ_SQL = "SELECT * FROM GP_DIRECTOR NATURAL JOIN GP_EMPLOYEE WHERE EMP_ID = ?";
 		Object[] tabParam = {empId};
     	ResultSet resultat = this.getEntityManager().selectAvecParamGenerique(REQ_SQL, tabParam);
     	GpDirector foundEmp = null;
     	if (resultat != null) {
             try {
 				while (resultat.next()) {
+					foundEmp = new GpDirector();
 					String fileNumber = resultat.getString("FILE_NUMBER");
 					String lastname = resultat.getString("LASTNAME");
 					String firstname = resultat.getString("FIRSTNAME");
@@ -73,7 +80,6 @@ public class GpDirectorDAOImpl extends GpAbstractEmployeeDAOImpl<GpDirector> imp
 					Date creationDate = resultat.getDate("CREATION_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
-					foundEmp = new GpDirector();
 					foundEmp.setId(empId);
 					foundEmp.setFileNumber(fileNumber);
 					foundEmp.setLastname(lastname);

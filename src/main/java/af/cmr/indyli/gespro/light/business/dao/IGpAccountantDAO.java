@@ -8,7 +8,6 @@ public interface IGpAccountantDAO extends IGpEmployeeDAO<GpAccountant>{
 	public GpAccountant create(GpAccountant emp);
 	public void update(GpAccountant emp);
 	public List<GpAccountant> findAll();
-	public void deleteById(Integer empId);
 	public GpAccountant findById(Integer empId);
 
 }

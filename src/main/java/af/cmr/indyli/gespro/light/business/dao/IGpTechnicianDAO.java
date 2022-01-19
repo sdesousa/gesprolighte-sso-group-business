@@ -8,7 +8,6 @@ public interface IGpTechnicianDAO extends IGpEmployeeDAO<GpTechnician>{
 	public GpTechnician create(GpTechnician emp);
 	public void update(GpTechnician emp);
 	public List<GpTechnician> findAll();
-	public void deleteById(Integer empId);
 	public GpTechnician findById(Integer empId);
 
 }

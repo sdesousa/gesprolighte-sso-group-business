@@ -5,7 +5,7 @@ public class GpAddress implements IEntity {
 	private static final long serialVersionUID = 1L;
 	public static final  String GP_ADDRESS_TABLE_NAME = "GP_ADDRESS";
 
-	private int id;
+	private Integer id;
 
 	private String country;
 
@@ -13,9 +13,9 @@ public class GpAddress implements IEntity {
 
 	private String streetLabel;
 
-	private int streetNumber;
+	private Integer streetNumber;
 
-	private int zipCode;
+	private Integer zipCode;
 
 	private GpEmployee gpEmployee;
 
@@ -48,7 +48,7 @@ public class GpAddress implements IEntity {
 		this.streetLabel = streetLabel;
 	}
 
-	public int getStreetNumber() {
+	public Integer getStreetNumber() {
 		return this.streetNumber;
 	}
 
@@ -56,7 +56,7 @@ public class GpAddress implements IEntity {
 		this.streetNumber = streetNumber;
 	}
 
-	public int getZipCode() {
+	public Integer getZipCode() {
 		return this.zipCode;
 	}
 

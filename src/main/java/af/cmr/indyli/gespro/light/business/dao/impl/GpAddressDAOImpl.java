@@ -10,14 +10,24 @@ import af.cmr.indyli.gespro.light.business.entity.GpAddress;
 
 public class GpAddressDAOImpl extends GpAbstractAddressDAOImpl<GpAddress> implements IGpAddressDAO<GpAddress>{
 	
+	private GpEmployeeDAOImpl empImpl = new GpEmployeeDAOImpl();
+	private GpOrganizationDAOImpl orgImpl = new GpOrganizationDAOImpl();
 	
 	@Override
 	public GpAddress create(GpAddress adr) {
-    	String REQ_SQL = "INSERT INTO GP_ADDRESS ( STREET_NUMBER,STREET_LABEL,ZIP_CODE,COUNTRY,IS_MAIN,ORG_ID,EMP_ID) VALUES (?,?,?,?,?,?,?)";
-    	Object[] tabParam = {adr.getStreetNumber(),adr.getStreetLabel(),adr.getZipCode(),adr.getCountry(),adr.getIsMain(),adr.getGpOrganization().getId(), adr.getGpEmployee().getId()};
-    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
-    	//TODO Integer empId = getEntityManager().findIdByAnyColumn("GP_ADDRESS", "ADDRESS_ID", emp.getEmail(), "EMP_ID");
-    	//TODO adr.setId(empId);
+		try {
+			this.getEntityManager().getDbConnect().setAutoCommit(false);
+			String REQ_SQL = "INSERT INTO GP_ADDRESS ( STREET_NUMBER,STREET_LABEL,ZIP_CODE,COUNTRY,IS_MAIN,ORG_ID,EMP_ID) VALUES (?,?,?,?,?,?,?)";
+	    	Object[] tabParam = {adr.getStreetNumber(),adr.getStreetLabel(),adr.getZipCode(),adr.getCountry(),adr.getIsMain(),adr.getGpOrganization().getId(), adr.getGpEmployee().getId()};
+	    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+	    	String REQ_SQL_MAX_ID = "SELECT max(ADDRESS_ID) AS MaxId FROM GP_ADDRESS";
+	    	ResultSet resultat = this.getEntityManager().exec(REQ_SQL_MAX_ID);
+	    	adr.setId(resultat.getInt("MaxId"));
+	    	this.getEntityManager().getDbConnect().setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
 		return adr;
 	}
 
@@ -51,8 +61,8 @@ public class GpAddressDAOImpl extends GpAbstractAddressDAOImpl<GpAddress> implem
 					foundAdr.setZipCode(zipCode);
 					foundAdr.setCountry(country);
 					foundAdr.setIsMain(isMain);
-					//TODO foundAdr.setGpEmployee(gpEmployee);
-					//TODO foundAdr.setGpOrganization(gpOrganization);
+					foundAdr.setGpEmployee(empImpl.findById(empId));
+					foundAdr.setGpOrganization(orgImpl.findById(orgId));
 					adrList.add(foundAdr);
 				}
 				resultat.close();
@@ -86,8 +96,9 @@ public class GpAddressDAOImpl extends GpAbstractAddressDAOImpl<GpAddress> implem
 					foundAdr.setZipCode(zipCode);
 					foundAdr.setCountry(country);
 					foundAdr.setIsMain(isMain);
-					//TODO foundAdr.setGpEmployee(gpEmployee);
-					//TODO foundAdr.setGpOrganization(gpOrganization);
+					foundAdr.setGpEmployee(empImpl.findById(empId));
+					foundAdr.setGpEmployee(empImpl.findById(empId));
+					foundAdr.setGpOrganization(orgImpl.findById(orgId));
 				}
 				resultat.close();
 			} catch (SQLException e) {

@@ -13,15 +13,21 @@ public class GpProjectManagerDAOImpl extends GpAbstractEmployeeDAOImpl<GpProject
 
 	@Override
 	public GpProjectManager create(GpProjectManager emp) {
-		String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
-	    Object[] tabParam = {emp.getFileNumber(),emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),new Date(),emp.getEmail(),emp.getLogin()};
-	   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
-	   	Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
-	   	//On insere maintenant dans la table GP_PROJECT_MANAGER
-	   	String REQ_SQL_PM = "INSERT INTO GP_PROJECT_MANAGER ( EMP_ID) VALUES (?)";
-	   	Object[] tabParamPM = {empId};
-	   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
-	   	emp.setId(empId);
+		try {
+			this.getEntityManager().getDbConnect().setAutoCommit(false);
+			String REQ_SQL = "INSERT INTO GP_EMPLOYEE ( FILE_NUMBER,LASTNAME,FIRSTNAME,PHONE_NUMBER,PASSWORD,CREATION_DATE,EMAIL,LOGIN) VALUES (?,?,?,?,?,?,?,?)";
+		    Object[] tabParam = {emp.getFileNumber(),emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),new Date(),emp.getEmail(),emp.getLogin()};
+		   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+		   	Integer empId = getEntityManager().findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", emp.getEmail(), "EMP_ID");
+		   	//On insere maintenant dans la table GP_PROJECT_MANAGER
+		   	String REQ_SQL_PM = "INSERT INTO GP_PROJECT_MANAGER ( EMP_ID) VALUES (?)";
+		   	Object[] tabParamPM = {empId};
+		   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
+		   	emp.setId(empId);
+			this.getEntityManager().getDbConnect().setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	   	return emp;
 	}
 

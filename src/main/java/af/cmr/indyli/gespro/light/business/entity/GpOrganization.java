@@ -4,6 +4,7 @@ import java.util.List;
 
 public class GpOrganization implements IEntity {
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_ORGANIZATION_TABLE_NAME = "GP_ORGANIZATION";
 
 	private Integer id;
 
@@ -17,7 +18,7 @@ public class GpOrganization implements IEntity {
 
 	private String orgCode;
 
-	private int phoneNumber;
+	private String phoneNumber;
 
 	private List<GpAddress> gpAddresses;
 
@@ -75,11 +76,11 @@ public class GpOrganization implements IEntity {
 		this.orgCode = orgCode;
 	}
 
-	public int getPhoneNumber() {
+	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

@@ -65,6 +65,7 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 					String phoneNumber = resultat.getString("PHONE_NUMBER");
 					String password = resultat.getString("PASSWORD");
 					Date creationDate = resultat.getDate("CREATION_DATE");
+					Date updateDate = resultat.getDate("UPDATE_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
 					String lastDiploma = resultat.getString("LAST_DIPLOMA");
@@ -75,6 +76,7 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 					foundEmp.setLastname(lastname);
 					foundEmp.setFirstname(firstname);
 					foundEmp.setCreationDate(creationDate);
+					foundEmp.setUpdateDate(updateDate);
 					foundEmp.setPassword(password);
 					foundEmp.setPhoneNumber(phoneNumber);
 					foundEmp.setEmail(email);
@@ -107,6 +109,7 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 					String phoneNumber = resultat.getString("PHONE_NUMBER");
 					String password = resultat.getString("PASSWORD");
 					Date creationDate = resultat.getDate("CREATION_DATE");
+					Date updateDate = resultat.getDate("UPDATE_DATE");
 					String email = resultat.getString("EMAIL");
 					String login = resultat.getString("LOGIN");
 					String lastDiploma = resultat.getString("LAST_DIPLOMA");
@@ -116,6 +119,7 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 					foundEmp.setLastname(lastname);
 					foundEmp.setFirstname(firstname);
 					foundEmp.setCreationDate(creationDate);
+					foundEmp.setUpdateDate(updateDate);
 					foundEmp.setPassword(password);
 					foundEmp.setPhoneNumber(phoneNumber);
 					foundEmp.setEmail(email);

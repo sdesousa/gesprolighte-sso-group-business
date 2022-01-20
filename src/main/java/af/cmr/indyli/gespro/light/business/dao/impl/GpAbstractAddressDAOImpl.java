@@ -21,9 +21,9 @@ public abstract class GpAbstractAddressDAOImpl<Entity extends IEntity> implement
 		return null;
 	}
 
-	public void deleteById(Integer empId) {
-		String REQ_SQL = "DELETE FROM "+this.getCurrentTableName()+" WHERE EMP_ID = ?";
-    	Object[] tabParam = {empId};
+	public void deleteById(Integer adrId) {
+		String REQ_SQL = "DELETE FROM "+this.getCurrentTableName()+" WHERE ADDRESS_ID = ?";
+    	Object[] tabParam = {adrId};
     	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
     	
 	}

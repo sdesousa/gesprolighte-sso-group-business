@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpTechnicianDAO;
+import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 import af.cmr.indyli.gespro.light.business.entity.GpTechnician;
 
 public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician> implements IGpTechnicianDAO{
@@ -29,6 +30,23 @@ public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician>
 			e.printStackTrace();
 		}
 		return emp;
+		
+	}
+	
+	@Override
+	public void update(GpTechnician emp) {
+		try {
+			this.getEntityManager().getDbConnect().setAutoCommit(false);
+			String REQ_SQL = "UPDATE GP_EMPLOYEE SET FILE_NUMBER=?, LASTNAME=?, FIRSTNAME=?, PHONE_NUMBER=?, PASSWORD = ?, EMAIL=?, LOGIN=?, UPDATE_DATE = ? WHERE EMP_ID = ?";
+	    	Object[] tabParam = {emp.getFileNumber(),emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),emp.getEmail(),emp.getLogin(),new Date(),emp.getId()};
+	    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+	    	String REQ_SQL_PM = "UPDATE GP_TECHNICIAN SET LAST_DIPLOMA=?, GRADUATION_YEAR=?";
+	    	Object[] tabParamPM = {emp.getLastDiploma(),emp.getGraduationYear()};
+	    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
+	    	this.getEntityManager().getDbConnect().setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

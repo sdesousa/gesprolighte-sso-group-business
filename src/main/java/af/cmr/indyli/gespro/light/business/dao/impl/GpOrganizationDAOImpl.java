@@ -1,7 +1,6 @@
 package af.cmr.indyli.gespro.light.business.dao.impl;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +33,8 @@ public class GpOrganizationDAOImpl extends GpAbstractOrganisationDAOImpl<GpOrgan
 
 	@Override
 	public void update(GpOrganization org) {
-		String REQ_SQL = "UPDATE FROM GP_ORGANIZATION SET ORG_CODE=? , NAME=? , PHONE_NUMBER=? ,ADR_WEB = ? ,CONTACT_NAME=? ,CONTACT_EMAIL=? WHERE ORG_ID = ?";
-    	Object[] tabParam = {org.getOrgCode(),org.getName(),org.getPhoneNumber(),org.getAdrWeb(),org.getContactName(),org.getContactEmail()};
+		String REQ_SQL = "UPDATE GP_ORGANIZATION SET ORG_CODE= ? , NAME= ? , PHONE_NUMBER= ? ,ADR_WEB = ? ,CONTACT_NAME= ? ,CONTACT_EMAIL= ? WHERE ORG_ID = ?";
+    	Object[] tabParam = {org.getOrgCode(),org.getName(),org.getPhoneNumber(),org.getAdrWeb(),org.getContactName(),org.getContactEmail(),org.getId()};
     	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 
@@ -90,7 +89,7 @@ public class GpOrganizationDAOImpl extends GpAbstractOrganisationDAOImpl<GpOrgan
 					foundOrg = new GpOrganization();
 					foundOrg.setId(orgId);
 					foundOrg.setOrgCode(orgCode);
-					foundOrg.setOrgCode(orgName);
+					foundOrg.setName(orgName);
 					foundOrg.setPhoneNumber(phoneNumber);
 					foundOrg.setAdrWeb(adrWeb);
 					foundOrg.setContactName(contactName);

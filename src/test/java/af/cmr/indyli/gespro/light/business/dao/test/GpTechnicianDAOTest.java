@@ -43,6 +43,49 @@ public class GpTechnicianDAOTest {
 	}
 	
 	@Test
+	public void testUpdateEmployeeWithSuccess() {
+		//Given
+		GpTechnician emp = new GpTechnician();
+		Assert.assertNull(emp.getId());
+		emp.setFileNumber("1024");
+		emp.setLastname("HOLLANDE");
+		emp.setFirstname("Francois");
+		emp.setPhoneNumber("0365987854");
+		emp.setPassword("mySecondPassword");
+		emp.setEmail("francois.hollande@gouv.fr");
+		emp.setLogin("francois.hollande");
+		emp.setLastDiploma("ENA");
+		emp.setGraduationYear(1988);
+		emp = empDAO.create(emp);
+		this.createPmId = emp.getId();
+		
+		//When
+		emp.setFileNumber("U1024");
+		emp.setLastname("UHOLLANDE");
+		emp.setFirstname("UFrancois");
+		emp.setPhoneNumber("U0365987854");
+		emp.setPassword("UmySecondPassword");
+		emp.setEmail("Ufrancois.hollande@gouv.fr");
+		emp.setLogin("Ufrancois.hollande");
+		emp.setLastDiploma("UENA");
+		emp.setGraduationYear(1900);
+		empDAO.update(emp);
+		
+		//Then
+		emp = empDAO.findById(createPmId);
+		Assert.assertEquals("U1024", emp.getFileNumber());
+		Assert.assertEquals("UHOLLANDE", emp.getLastname());
+		Assert.assertEquals("UFrancois", emp.getFirstname());
+		Assert.assertEquals("U0365987854", emp.getPhoneNumber());
+		Assert.assertEquals("UmySecondPassword", emp.getPassword());
+		Assert.assertEquals("Ufrancois.hollande@gouv.fr", emp.getEmail());
+		Assert.assertEquals("Ufrancois.hollande", emp.getLogin());
+		Assert.assertEquals("UENA", emp.getLastDiploma());
+		Assert.assertEquals(1900, emp.getGraduationYear());
+		
+	}
+	
+	@Test
 	public void testFindAllEmployeeWithSuccess() {
 		//Given
 		

@@ -38,6 +38,39 @@ public class GpOrganizationDAOTest {
 		// Then
 		Assert.assertNotNull(org.getId());
 	}
+	
+	@Test
+	public void testUpdateOrganizationWithSuccess() {
+		// Given
+		GpOrganization org = new GpOrganization();
+		Assert.assertNull(org.getId());
+		org.setOrgCode("OR123");
+		org.setName("M2I");
+		org.setPhoneNumber("0174787576");
+		org.setAdrWeb("www.m2i.fr");
+		org.setContactName("Clément d'Harcourt");
+		org.setContactEmail("clement.dharcourt@m2i.fr");
+		org = orgDAO.create(org);
+		this.createOrgId = org.getId();
+		
+		// When
+		org.setOrgCode("UOR123");
+		org.setName("UM2I");
+		org.setPhoneNumber("U0174787576");
+		org.setAdrWeb("Uwww.m2i.fr");
+		org.setContactName("UClément d'Harcourt");
+		org.setContactEmail("Uclement.dharcourt@m2i.fr");
+		orgDAO.update(org);
+
+		// Then
+		org = orgDAO.findById(createOrgId);
+		Assert.assertEquals("UOR123", org.getOrgCode());
+		Assert.assertEquals("UM2I", org.getName());
+		Assert.assertEquals("U0174787576", org.getPhoneNumber());
+		Assert.assertEquals("Uwww.m2i.fr", org.getAdrWeb());
+		Assert.assertEquals("UClément d'Harcourt", org.getContactName());
+		Assert.assertEquals("Uclement.dharcourt@m2i.fr", org.getContactEmail());
+	}
 
 	@Test
 	public void testFindAllOrganizationWithSuccess() {
@@ -63,14 +96,14 @@ public class GpOrganizationDAOTest {
 	@Test
 	public void testDelete() {
 		// Given
-		Integer adrId = this.orgIdForAllTest;
+		Integer orgId = this.orgIdForAllTest;
 		
 		// When
-		this.orgDAO.deleteById(adrId);
-		GpOrganization emp = this.orgDAO.findById(adrId);
+		this.orgDAO.deleteById(orgId);
+		GpOrganization org = this.orgDAO.findById(orgId);
 		
 		// Then
-		Assert.assertNull(emp);
+		Assert.assertNull(org);
 	}
 	
 	@Before

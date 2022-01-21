@@ -8,8 +8,9 @@ import java.util.List;
 import af.cmr.indyli.gespro.light.business.dao.IGpAddressDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpAddress;
 
-public class GpAddressDAOImpl extends GpAbstractAddressDAOImpl<GpAddress> implements IGpAddressDAO<GpAddress>{
+public class GpAddressDAOImpl implements IGpAddressDAO<GpAddress>{
 	
+	private GpEntityManager entityManager = new GpEntityManager();
 	private GpEmployeeDAOImpl empImpl = new GpEmployeeDAOImpl();
 	private GpOrganizationDAOImpl orgImpl = new GpOrganizationDAOImpl();
 	
@@ -109,7 +110,21 @@ public class GpAddressDAOImpl extends GpAbstractAddressDAOImpl<GpAddress> implem
 		return foundAdr;
 	}
 	
-	@Override
+	public void deleteById(Integer adrId) {
+		String REQ_SQL = "DELETE FROM "+this.getCurrentTableName()+" WHERE ADDRESS_ID = ?";
+    	Object[] tabParam = {adrId};
+    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+    	
+	}
+	
+	public GpEntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(GpEntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
 	public String getCurrentTableName() {
 		return GpAddress.GP_ADDRESS_TABLE_NAME;
 	}

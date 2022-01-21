@@ -8,7 +8,9 @@ import java.util.List;
 import af.cmr.indyli.gespro.light.business.dao.IGpOrganizationDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 
-public class GpOrganizationDAOImpl extends GpAbstractOrganisationDAOImpl<GpOrganization> implements IGpOrganizationDAO<GpOrganization>{
+public class GpOrganizationDAOImpl implements IGpOrganizationDAO<GpOrganization>{
+	
+	private GpEntityManager entityManager = new GpEntityManager();
 	
 	@Override
 	public GpOrganization create(GpOrganization org) {
@@ -103,7 +105,21 @@ public class GpOrganizationDAOImpl extends GpAbstractOrganisationDAOImpl<GpOrgan
 		return foundOrg;
 	}
 	
-	@Override
+	public void deleteById(Integer empId) {
+		String REQ_SQL = "DELETE FROM "+this.getCurrentTableName()+" WHERE ORG_ID = ?";
+    	Object[] tabParam = {empId};
+    	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
+    	
+	}
+	
+	public GpEntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(GpEntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
 	public String getCurrentTableName() {
 		return GpOrganization.GP_ORGANIZATION_TABLE_NAME;
 	}

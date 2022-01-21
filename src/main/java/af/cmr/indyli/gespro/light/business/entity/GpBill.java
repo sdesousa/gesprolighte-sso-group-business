@@ -2,6 +2,7 @@ package af.cmr.indyli.gespro.light.business.entity;
 
 public class GpBill implements IEntity {
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_BILL_TABLE_NAME = "GP_BILL";
 
 	private Integer id;
 

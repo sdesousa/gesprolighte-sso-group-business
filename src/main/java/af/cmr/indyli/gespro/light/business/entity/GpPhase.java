@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 public class GpPhase implements IEntity {
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_PHASE_TABLE_NAME = "GP_PHASE";
 
 	private Integer id;
 	

@@ -11,28 +11,30 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import af.cmr.indyli.gespro.light.business.dao.IGpProjectDAO;
-import af.cmr.indyli.gespro.light.business.dao.IGpOrganizationDAO;
-import af.cmr.indyli.gespro.light.business.dao.IGpProjectManagerDAO;
-import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectDAOImpl;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpOrganizationDAOImpl;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpPhaseDAOImpl;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectDAOImpl;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectManagerDAOImpl;
-import af.cmr.indyli.gespro.light.business.entity.GpProject;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
+import af.cmr.indyli.gespro.light.business.entity.GpPhase;
+import af.cmr.indyli.gespro.light.business.entity.GpProject;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
 
-public class GpProjectDAOTest {
+public class GpPhaseDAOTest {
 
-	private IGpOrganizationDAO<GpOrganization> orgDAO = new GpOrganizationDAOImpl();
-	private IGpProjectManagerDAO empDAO = new GpProjectManagerDAOImpl();
-	private IGpProjectDAO<GpProject> prjDAO = new GpProjectDAOImpl();
+	private GpProjectDAOImpl prjDAO = new GpProjectDAOImpl();
+	private GpProjectManagerDAOImpl empDAO = new GpProjectManagerDAOImpl();
+	private GpOrganizationDAOImpl orgDAO = new GpOrganizationDAOImpl();
+	private GpPhaseDAOImpl phsDAO = new GpPhaseDAOImpl();
 	private Integer prjIdForAllTest = null;
-	private Integer orgIdForAllTest = null;
+	private Integer phsIdForAllTest = null;
 	private Integer empIdForAllTest = null;
+	private Integer orgIdForAllTest = null;
 	private Integer createPrjId = null;
-	private Integer createOrgId = null;
+	private Integer createPhsId = null;
 	private Integer createEmpId = null;
+	private Integer createOrgId = null;
 
 	@Test
 	public void testCreateAddressWithSuccess() {
@@ -80,13 +82,33 @@ public class GpProjectDAOTest {
 		projectToCreate.setUpdateDate(MajDate); 
 		projectToCreate.setGpOrganization(organization);
 		projectToCreate.setGpChefProjet(projectManager);
+		projectToCreate = prjDAO.create(projectToCreate);
+		this.createPrjId = projectToCreate.getId();
+		
+		GpPhase phs = new GpPhase();
+		Assert.assertNull(phs.getId());
+		phs.setPhaseCode("B2");
+		phs.setDescription("seconde phase");
+		Date phsDate =null ;
+		try {
+			phsDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
+		} catch (ParseException e) {
+			phsDate = new Date();
+			// possible rajouter logger
+		}
+		phs.setStartDate(phsDate);
+		phs.setEndDate(phsDate);
+		phs.setAmount(145.50);
+		phs.setStatus((byte) 1);
+		phs.setIsEnded((byte) 0);
+		phs.setGpProject(projectToCreate);		
 
 		// When
-		projectToCreate = prjDAO.create(projectToCreate);
+		phs = phsDAO.create(phs);
 		//On le sauvegarde pour le supprimer apres
-		this.createPrjId = projectToCreate.getId();
+		this.createPhsId = phs.getId();
 		// Then
-		Assert.assertNotNull(projectToCreate.getId());
+		Assert.assertNotNull(phs.getId());
 
 	}
 	
@@ -117,7 +139,7 @@ public class GpProjectDAOTest {
 		this.createOrgId = organization.getId();
 
 		GpProject projectToCreate = new GpProject();
-		Assert.assertNull(projectToCreate.getId());	
+		Assert.assertNull(projectToCreate.getId());
 		projectToCreate.setProjectCode("18023");
 		projectToCreate.setName("Service Cloud Amazon");
 		projectToCreate.setDescription("Demande d'une entit d'Amazon d'amliorer son service cloud");
@@ -139,19 +161,40 @@ public class GpProjectDAOTest {
 		projectToCreate = prjDAO.create(projectToCreate);
 		this.createPrjId = projectToCreate.getId();
 		
+		GpPhase phs = new GpPhase();
+		Assert.assertNull(phs.getId());
+		phs.setPhaseCode("B2");
+		phs.setDescription("seconde phase");
+		Date phsDate =null ;
+		try {
+			phsDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
+		} catch (ParseException e) {
+			phsDate = new Date();
+			// possible rajouter logger
+		}
+		phs.setStartDate(phsDate);
+		phs.setEndDate(phsDate);
+		phs.setAmount(145.50);
+		phs.setStatus((byte) 1);
+		phs.setIsEnded((byte) 0);
+		phs.setGpProject(projectToCreate);
+		phs = phsDAO.create(phs);
+		this.createPhsId = phs.getId();
+		
 		// When
-		projectToCreate.setProjectCode("U18023");
-		projectToCreate.setName("UService Cloud Amazon");
-		projectToCreate.setDescription("UDemande d'une entit d'Amazon d'amliorer son service cloud");
-		projectToCreate.setAmount(12000);
-		prjDAO.update(projectToCreate);
+		phs.setPhaseCode("UB2");
+		phs.setDescription("Useconde phase");
+		phs.setAmount(245.50);
+		phs.setIsEnded((byte) 1);
+		phsDAO.update(phs);
 
 		// Then
-		projectToCreate = prjDAO.findById(createPrjId);
-		Assert.assertEquals("U18023", projectToCreate.getProjectCode());
-		Assert.assertEquals("UService Cloud Amazon", projectToCreate.getName());
-		Assert.assertEquals("UDemande d'une entit d'Amazon d'amliorer son service cloud", projectToCreate.getDescription());
-		Assert.assertEquals(12000, projectToCreate.getAmount(), 0);
+		phs = phsDAO.findById(createPhsId);
+		Assert.assertEquals("UB2", phs.getPhaseCode());
+		Assert.assertEquals("Useconde phase", phs.getDescription());
+		Assert.assertEquals(245.50, phs.getAmount(), 0);
+		Assert.assertEquals((byte) 1, phs.getStatus());
+		Assert.assertEquals((byte) 1, phs.getIsEnded());
 	}
 
 	@Test
@@ -159,30 +202,33 @@ public class GpProjectDAOTest {
 		// Given
 
 		// When
-		List<GpProject> prjs = this.prjDAO.findAll();
+		List<GpPhase> phss = this.phsDAO.findAll();
 		// Then
-		Assert.assertTrue(prjs.size() > 0);
+		Assert.assertTrue(phss.size() > 0);
 	}
 
 	@Test
 	public void testFindByIdWithSuccess() {
 		// Given
-		Integer prjId = this.prjIdForAllTest;
+		Integer phsId = this.phsIdForAllTest;
 
 		// When
-		GpProject prj = this.prjDAO.findById(prjId);
+		GpPhase phs = this.phsDAO.findById(phsId);
 		// Then
-		Assert.assertNotNull(prj);
+		Assert.assertNotNull(phs);
 	}
 
 	@Test
 	public void testDelete() {
 		// Given
+		Integer phsId = this.phsIdForAllTest;
 		Integer prjId = this.prjIdForAllTest;
 		Integer orgId = this.orgIdForAllTest;
 		Integer empId = this.empIdForAllTest;
 		
 		// When
+		this.phsDAO.deleteById(phsId);
+		GpPhase phs = this.phsDAO.findById(phsId);
 		this.prjDAO.deleteById(prjId);
 		GpProject prj = this.prjDAO.findById(prjId);
 		this.orgDAO.deleteById(orgId);
@@ -191,6 +237,7 @@ public class GpProjectDAOTest {
 		GpProjectManager emp = this.empDAO.findById(empId);
 		
 		// Then
+		Assert.assertNull(phs);
 		Assert.assertNull(prj);
 		Assert.assertNull(org);
 		Assert.assertNull(emp);
@@ -208,7 +255,6 @@ public class GpProjectDAOTest {
 		org.setContactEmail("julien@pole-emploi.fr");
 		org = orgDAO.create(org);
 		this.orgIdForAllTest = org.getId();
-		
 		GpProjectManager emp = new GpProjectManager();
 		Assert.assertNull(emp.getId());
 		emp.setFileNumber("1050");
@@ -220,7 +266,6 @@ public class GpProjectDAOTest {
 		emp.setLogin("sego.royal");
 		emp = empDAO.create(emp) ;
 		this.empIdForAllTest = emp.getId();
-		
 		GpProject prj = new GpProject();
 		Assert.assertNull(prj.getId());
 		prj.setProjectCode("18023");
@@ -243,14 +288,40 @@ public class GpProjectDAOTest {
 		prj.setGpChefProjet(emp);
 		prj = this.prjDAO.create(prj);
 		this.prjIdForAllTest = prj.getId();
+		
+		GpPhase phs = new GpPhase();
+		Assert.assertNull(phs.getId());
+		phs.setPhaseCode("A1");
+		phs.setDescription("premiere phase");
+		Date phsDate =null ;
+		try {
+			phsDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
+		} catch (ParseException e) {
+			phsDate = new Date();
+			// possible rajouter logger
+		}
+		phs.setStartDate(phsDate);
+		phs.setEndDate(phsDate);
+		phs.setAmount(145.50);
+		phs.setStatus((byte) 1);
+		phs.setIsEnded((byte) 0);
+		phs.setGpProject(prj);
+		phs = this.phsDAO.create(phs);
+		this.phsIdForAllTest = phs.getId();
+		
+		
 
 	}
 	
 	@After
 	public void deleteAllEntityAfter() {
+		this.phsDAO.deleteById(this.phsIdForAllTest);
 		this.prjDAO.deleteById(this.prjIdForAllTest);
 		this.orgDAO.deleteById(this.orgIdForAllTest);
 		this.empDAO.deleteById(this.empIdForAllTest);
+		if(!Objects.isNull(this.createPhsId)) {
+			this.phsDAO.deleteById(this.createPhsId);
+		}
 		if(!Objects.isNull(this.createPrjId)) {
 			this.prjDAO.deleteById(this.createPrjId);
 		}

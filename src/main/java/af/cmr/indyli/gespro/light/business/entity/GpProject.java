@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GpProject implements IEntity {
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_PROJECT_TABLE_NAME = "GP_PROJECT";
 
 	private Integer id;
 

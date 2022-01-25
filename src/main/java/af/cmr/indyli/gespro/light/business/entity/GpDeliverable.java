@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class GpDeliverable implements IEntity {
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_DELIVERABLE_TABLE_NAME = "GP_DELIVERABLE";
 
 	private Integer id;
 

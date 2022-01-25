@@ -1,11 +1,8 @@
 package af.cmr.indyli.gespro.light.business.dao.test;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +18,7 @@ import af.cmr.indyli.gespro.light.business.entity.GpProject;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
 
-public class GpPhaseDAOTest {
+public class GpPhaseDAOTest extends GpDataCreationDAOTest {
 
 	private GpProjectDAOImpl prjDAO = new GpProjectDAOImpl();
 	private GpProjectManagerDAOImpl empDAO = new GpProjectManagerDAOImpl();
@@ -41,66 +38,25 @@ public class GpPhaseDAOTest {
 		// Given
 		GpProjectManager projectManager = new GpProjectManager();
 		Assert.assertNull(projectManager.getId());
-		projectManager.setFileNumber("4052");
-		projectManager.setLastname("Gabriel");
-		projectManager.setFirstname("ATTAL");
-		projectManager.setPhoneNumber("0236589745");
-		projectManager.setPassword("myPass");
-		projectManager.setEmail("gabriel.attal@gouv.fr");
-		projectManager.setLogin("gab.attal");
+		projectManager = this.getPmCreate();
 		projectManager = empDAO.create(projectManager);
 		this.createEmpId = projectManager.getId();
 
 		GpOrganization organization = new GpOrganization();
 		Assert.assertNull(organization.getId());
-		organization.setOrgCode("CODE-67");
-		organization.setName("INDYLI-SERVICES");
-		organization.setAdrWeb("indyli-services.com");
-		organization.setContactEmail("contact@indyli-services.com");
-		organization.setContactName("CName");
-		organization.setPhoneNumber("7895");
+		organization = this.getOrgCreate();
 		organization = orgDAO.create(organization);
 		this.createOrgId = organization.getId();
 
 		GpProject projectToCreate = new GpProject();
 		Assert.assertNull(projectToCreate.getId());
-		projectToCreate.setProjectCode("18023");
-		projectToCreate.setName("Service Cloud Amazon");
-		projectToCreate.setDescription("Demande d'une entit d'Amazon d'amliorer son service cloud");
-		Date maDate =null ;
-		try {
-			maDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			maDate = new Date();
-		}
-		projectToCreate.setStartDate(maDate);
-		projectToCreate.setEndDate(maDate);
-		projectToCreate.setAmount(9000); 
-		Date CreDate = new Date(); 
-		projectToCreate.setCreationDate(CreDate);
-		Date MajDate = new Date(); 
-		projectToCreate.setUpdateDate(MajDate); 
-		projectToCreate.setGpOrganization(organization);
-		projectToCreate.setGpChefProjet(projectManager);
+		projectToCreate = this.getPrjCreate();
 		projectToCreate = prjDAO.create(projectToCreate);
 		this.createPrjId = projectToCreate.getId();
 		
 		GpPhase phs = new GpPhase();
 		Assert.assertNull(phs.getId());
-		phs.setPhaseCode("B2");
-		phs.setDescription("seconde phase");
-		Date phsDate =null ;
-		try {
-			phsDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			phsDate = new Date();
-			// possible rajouter logger
-		}
-		phs.setStartDate(phsDate);
-		phs.setEndDate(phsDate);
-		phs.setAmount(145.50);
-		phs.setStatus((byte) 1);
-		phs.setIsEnded((byte) 0);
+		phs = this.getPhsCreate();
 		phs.setGpProject(projectToCreate);		
 
 		// When
@@ -117,69 +73,33 @@ public class GpPhaseDAOTest {
 		// Given
 		GpProjectManager projectManager = new GpProjectManager();
 		Assert.assertNull(projectManager.getId());
-		projectManager.setFileNumber("4052");
-		projectManager.setLastname("Gabriel");
-		projectManager.setFirstname("ATTAL");
-		projectManager.setPhoneNumber("0236589745");
-		projectManager.setPassword("myPass");
-		projectManager.setEmail("gabriel.attal@gouv.fr");
-		projectManager.setLogin("gab.attal");
+		projectManager = this.getPmCreate();
 		projectManager = empDAO.create(projectManager);
 		this.createEmpId = projectManager.getId();
 
 		GpOrganization organization = new GpOrganization();
 		Assert.assertNull(organization.getId());
-		organization.setOrgCode("CODE-67");
-		organization.setName("INDYLI-SERVICES");
-		organization.setAdrWeb("indyli-services.com");
-		organization.setContactEmail("contact@indyli-services.com");
-		organization.setContactName("CName");
-		organization.setPhoneNumber("7895");
+		organization = this.getOrgCreate();
 		organization = orgDAO.create(organization);
 		this.createOrgId = organization.getId();
 
 		GpProject projectToCreate = new GpProject();
 		Assert.assertNull(projectToCreate.getId());
-		projectToCreate.setProjectCode("18023");
-		projectToCreate.setName("Service Cloud Amazon");
-		projectToCreate.setDescription("Demande d'une entit d'Amazon d'amliorer son service cloud");
-		Date maDate =null ;
-		try {
-			maDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			maDate = new Date();
-		}
-		projectToCreate.setStartDate(maDate);
-		projectToCreate.setEndDate(maDate);
-		projectToCreate.setAmount(9000); 
-		Date CreDate = new Date(); 
-		projectToCreate.setCreationDate(CreDate);
-		Date MajDate = new Date(); 
-		projectToCreate.setUpdateDate(MajDate); 
-		projectToCreate.setGpOrganization(organization);
-		projectToCreate.setGpChefProjet(projectManager);
+		projectToCreate = this.getPrjCreate();
 		projectToCreate = prjDAO.create(projectToCreate);
 		this.createPrjId = projectToCreate.getId();
 		
 		GpPhase phs = new GpPhase();
 		Assert.assertNull(phs.getId());
-		phs.setPhaseCode("B2");
-		phs.setDescription("seconde phase");
-		Date phsDate =null ;
-		try {
-			phsDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			phsDate = new Date();
-			// possible rajouter logger
-		}
-		phs.setStartDate(phsDate);
-		phs.setEndDate(phsDate);
-		phs.setAmount(145.50);
-		phs.setStatus((byte) 1);
-		phs.setIsEnded((byte) 0);
-		phs.setGpProject(projectToCreate);
+		phs = this.getPhsCreate();
 		phs = phsDAO.create(phs);
 		this.createPhsId = phs.getId();
+		
+		Assert.assertEquals("B2", phs.getPhaseCode());
+		Assert.assertEquals("seconde phase", phs.getDescription());
+		Assert.assertEquals(145.50, phs.getAmount(), 0);
+		Assert.assertEquals((byte) 1, phs.getStatus());
+		Assert.assertEquals((byte) 0, phs.getIsEnded());
 		
 		// When
 		phs.setPhaseCode("UB2");
@@ -247,69 +167,25 @@ public class GpPhaseDAOTest {
 	public void prepareAllEntityBefore() {
 		GpOrganization org = new GpOrganization();
 		Assert.assertNull(org.getId());
-		org.setOrgCode("E498");
-		org.setName("Pole emploi");
-		org.setPhoneNumber("3949");
-		org.setAdrWeb("www.pole-emploi.fr");
-		org.setContactName("Julien");
-		org.setContactEmail("julien@pole-emploi.fr");
+		org = this.getOrgDefault();
 		org = orgDAO.create(org);
 		this.orgIdForAllTest = org.getId();
 		GpProjectManager emp = new GpProjectManager();
 		Assert.assertNull(emp.getId());
-		emp.setFileNumber("1050");
-		emp.setLastname("Segolene");
-		emp.setFirstname("ROYAL");
-		emp.setPhoneNumber("0256897856");
-		emp.setPassword("mySecondPassword");
-		emp.setEmail("segolene.royal@gouv.fr");
-		emp.setLogin("sego.royal");
+		emp = this.getPmDefault();
 		emp = empDAO.create(emp) ;
 		this.empIdForAllTest = emp.getId();
 		GpProject prj = new GpProject();
 		Assert.assertNull(prj.getId());
-		prj.setProjectCode("18023");
-		prj.setName("Service Cloud Amazon");
-		prj.setDescription("Mise en place Cloud Test");
-		Date maDate =null ;
-		try {
-			maDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			maDate = new Date();
-			// possible rajouter logger
-		}
-		prj.setStartDate(maDate);
-		prj.setEndDate(maDate);
-		prj.setAmount(9000); 
-		prj.setCreationDate(new Date());
-		Date MajDate = new Date(); 
-		prj.setUpdateDate(MajDate);
-		prj.setGpOrganization(org); 
-		prj.setGpChefProjet(emp);
+		prj = this.getPrjDefault();
 		prj = this.prjDAO.create(prj);
 		this.prjIdForAllTest = prj.getId();
 		
 		GpPhase phs = new GpPhase();
 		Assert.assertNull(phs.getId());
-		phs.setPhaseCode("A1");
-		phs.setDescription("premiere phase");
-		Date phsDate =null ;
-		try {
-			phsDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			phsDate = new Date();
-			// possible rajouter logger
-		}
-		phs.setStartDate(phsDate);
-		phs.setEndDate(phsDate);
-		phs.setAmount(145.50);
-		phs.setStatus((byte) 1);
-		phs.setIsEnded((byte) 0);
-		phs.setGpProject(prj);
+		phs = this.getPhsDefault();
 		phs = this.phsDAO.create(phs);
 		this.phsIdForAllTest = phs.getId();
-		
-		
 
 	}
 	

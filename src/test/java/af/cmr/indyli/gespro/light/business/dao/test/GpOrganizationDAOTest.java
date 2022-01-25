@@ -13,7 +13,7 @@ import af.cmr.indyli.gespro.light.business.dao.impl.GpOrganizationDAOImpl;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 
 
-public class GpOrganizationDAOTest {
+public class GpOrganizationDAOTest extends GpDataCreationDAOTest {
 
 	private IGpOrganizationDAO<GpOrganization> orgDAO = new GpOrganizationDAOImpl();
 	private Integer orgIdForAllTest = null;
@@ -24,12 +24,7 @@ public class GpOrganizationDAOTest {
 		// Given
 		GpOrganization org = new GpOrganization();
 		Assert.assertNull(org.getId());
-		org.setOrgCode("OR123");
-		org.setName("M2I");
-		org.setPhoneNumber("0174787576");
-		org.setAdrWeb("www.m2i.fr");
-		org.setContactName("Clément d'Harcourt");
-		org.setContactEmail("clement.dharcourt@m2i.fr");
+		org = this.getOrgCreate();
 
 		// When
 		org = orgDAO.create(org);
@@ -44,14 +39,17 @@ public class GpOrganizationDAOTest {
 		// Given
 		GpOrganization org = new GpOrganization();
 		Assert.assertNull(org.getId());
-		org.setOrgCode("OR123");
-		org.setName("M2I");
-		org.setPhoneNumber("0174787576");
-		org.setAdrWeb("www.m2i.fr");
-		org.setContactName("Clément d'Harcourt");
-		org.setContactEmail("clement.dharcourt@m2i.fr");
+		org = this.getOrgCreate();
 		org = orgDAO.create(org);
 		this.createOrgId = org.getId();
+		
+		
+		Assert.assertEquals("CODE-67", org.getOrgCode());
+		Assert.assertEquals("INDYLI-SERVICES", org.getName());
+		Assert.assertEquals("7895", org.getPhoneNumber());
+		Assert.assertEquals("indyli-services.com", org.getAdrWeb());
+		Assert.assertEquals("CName", org.getContactName());
+		Assert.assertEquals("contact@indyli-services.com", org.getContactEmail());
 		
 		// When
 		org.setOrgCode("UOR123");
@@ -110,12 +108,7 @@ public class GpOrganizationDAOTest {
 	public void prepareAllEntityBefore() {
 		GpOrganization org = new GpOrganization();
 		Assert.assertNull(org.getId());
-		org.setOrgCode("E498");
-		org.setName("Pole emploi");
-		org.setPhoneNumber("3949");
-		org.setAdrWeb("www.pole-emploi.fr");
-		org.setContactName("Julien");
-		org.setContactEmail("julien@pole-emploi.fr");
+		org = this.getOrgDefault();
 		org = orgDAO.create(org) ;
 		this.orgIdForAllTest = org.getId();
 	}

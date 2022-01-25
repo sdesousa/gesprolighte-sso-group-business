@@ -16,7 +16,7 @@ import af.cmr.indyli.gespro.light.business.entity.GpAddress;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 
 
-public class GpAddressDAOTest {
+public class GpAddressDAOTest extends GpDataCreationDAOTest {
 
 	private IGpOrganizationDAO<GpOrganization> orgDAO = new GpOrganizationDAOImpl();
 	private IGpAddressDAO<GpAddress> adrDAO = new GpAddressDAOImpl();
@@ -31,29 +31,19 @@ public class GpAddressDAOTest {
 		
 		GpOrganization org = new GpOrganization();
 		Assert.assertNull(org.getId());
-		org.setOrgCode("OR123");
-		org.setName("M2I");
-		org.setPhoneNumber("0174787576");
-		org.setAdrWeb("www.m2i.fr");
-		org.setContactName("Clément d'Harcourt");
-		org.setContactEmail("clement.dharcourt@m2i.fr");
+		org = this.getOrgCreate();
 		org = orgDAO.create(org) ;
 		
 		GpAddress adr = new GpAddress();
 		Assert.assertNull(adr.getId());
-		adr.setStreetNumber(41);
-		adr.setStreetLabel("rue azerty");
-		adr.setZipCode(25041);
-		adr.setCountry("France");
-		adr.setIsMain((byte) 1);
-		adr.setGpOrganization(org);
-		
+		adr = this.getAdrCreate();
 
 		// When
 		adr = adrDAO.create(adr);
 		//On le sauvegarde pour le supprimer apres
 		this.createAdrId = adr.getId();
 		this.createOrgId = org.getId();
+		
 		// Then
 		Assert.assertNotNull(adr.getId());
 	}
@@ -63,24 +53,19 @@ public class GpAddressDAOTest {
 		// Given
 		GpOrganization org = new GpOrganization();
 		Assert.assertNull(org.getId());
-		org.setOrgCode("OR123");
-		org.setName("M2I");
-		org.setPhoneNumber("0174787576");
-		org.setAdrWeb("www.m2i.fr");
-		org.setContactName("Clément d'Harcourt");
-		org.setContactEmail("clement.dharcourt@m2i.fr");
+		org = this.getOrgCreate();
 		org = orgDAO.create(org) ;
 		GpAddress adr = new GpAddress();
 		Assert.assertNull(adr.getId());
-		adr.setStreetNumber(41);
-		adr.setStreetLabel("rue azerty");
-		adr.setZipCode(25041);
-		adr.setCountry("France");
-		adr.setIsMain((byte) 1);
-		adr.setGpOrganization(org);
+		adr = this.getAdrCreate();
 		adr = adrDAO.create(adr);
 		this.createOrgId = org.getId();
 		this.createAdrId = adr.getId();
+		Assert.assertEquals(new Integer(41), adr.getStreetNumber());
+		Assert.assertEquals("rue azerty", adr.getStreetLabel());
+		Assert.assertEquals(new Integer(25041), adr.getZipCode());
+		Assert.assertEquals("France", adr.getCountry());
+		Assert.assertEquals(1, adr.getIsMain());
 		
 		// When
 		adr.setStreetNumber(51);
@@ -140,23 +125,13 @@ public class GpAddressDAOTest {
 	public void prepareAllEntityBefore() {
 		GpOrganization org = new GpOrganization();
 		Assert.assertNull(org.getId());
-		org.setOrgCode("E498");
-		org.setName("Pole emploi");
-		org.setPhoneNumber("3949");
-		org.setAdrWeb("www.pole-emploi.fr");
-		org.setContactName("Julien");
-		org.setContactEmail("julien@pole-emploi.fr");
+		org = this.getOrgDefault();
 		org = orgDAO.create(org);
 		this.orgIdForAllTest = org.getId();
 		
 		GpAddress adr = new GpAddress();
 		Assert.assertNull(adr.getId());
-		adr.setStreetNumber(11);
-		adr.setStreetLabel("rue abc");
-		adr.setZipCode(12000);
-		adr.setCountry("France");
-		adr.setIsMain((byte) 0);
-		adr.setGpOrganization(org);
+		adr = this.getAdrDefault();
 		adr = adrDAO.create(adr);
 		this.adrIdForAllTest = adr.getId();
 	}

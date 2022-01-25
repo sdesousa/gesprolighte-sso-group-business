@@ -1,11 +1,8 @@
 package af.cmr.indyli.gespro.light.business.dao.test;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

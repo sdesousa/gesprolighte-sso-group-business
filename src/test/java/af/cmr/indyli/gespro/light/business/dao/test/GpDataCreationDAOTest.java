@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Date;
 import org.apache.commons.lang3.time.DateUtils;
 
+import af.cmr.indyli.gespro.light.business.entity.GpAddress;
+import af.cmr.indyli.gespro.light.business.entity.GpBill;
 import af.cmr.indyli.gespro.light.business.entity.GpDeliverable;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
@@ -14,15 +16,19 @@ import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 public class GpDataCreationDAOTest {
 
 	private GpOrganization orgDefault = new GpOrganization();
+	private GpAddress adrDefault = new GpAddress();
 	private GpProjectManager pmDefault = new GpProjectManager();
 	private GpProject prjDefault = new GpProject();
 	private GpPhase phsDefault = new GpPhase();
 	private GpDeliverable delDefault = new GpDeliverable();
+	private GpBill bllDefault = new GpBill();
 	private GpOrganization orgCreate = new GpOrganization();
+	private GpAddress adrCreate = new GpAddress();
 	private GpProjectManager pmCreate = new GpProjectManager();
 	private GpProject prjCreate = new GpProject();
 	private GpPhase phsCreate = new GpPhase();
 	private GpDeliverable delCreate = new GpDeliverable();
+	private GpBill bllCreate = new GpBill();
 	
 	protected GpOrganization getOrgDefault() {
 		orgDefault.setOrgCode("E498");
@@ -32,6 +38,15 @@ public class GpDataCreationDAOTest {
 		orgDefault.setContactName("Julien");
 		orgDefault.setContactEmail("julien@pole-emploi.fr");
 		return orgDefault;
+	}
+	protected GpAddress getAdrDefault() {
+		adrDefault.setStreetNumber(11);
+		adrDefault.setStreetLabel("rue abc");
+		adrDefault.setZipCode(12000);
+		adrDefault.setCountry("France");
+		adrDefault.setIsMain((byte) 0);
+		adrDefault.setGpOrganization(this.getOrgDefault());
+		return adrDefault;
 	}
 	protected GpProjectManager getPmDefault() {
 		pmDefault.setFileNumber("1050");
@@ -92,6 +107,15 @@ public class GpDataCreationDAOTest {
 		return delDefault;
 		
 	}
+	
+	protected GpBill getBllDefault( ) {
+		bllDefault.setBillCode("BP12");
+		bllDefault.setBillStatus("PAID");
+		bllDefault.setAmount(600.50);
+		bllDefault.setGpPhase(this.getPhsDefault());
+		return bllDefault;
+	}
+	
 	protected GpOrganization getOrgCreate() {
 		orgCreate.setOrgCode("CODE-67");
 		orgCreate.setName("INDYLI-SERVICES");
@@ -100,6 +124,15 @@ public class GpDataCreationDAOTest {
 		orgCreate.setContactName("CName");
 		orgCreate.setPhoneNumber("7895");
 		return orgCreate;
+	}
+	protected GpAddress getAdrCreate() {
+		adrCreate.setStreetNumber(41);
+		adrCreate.setStreetLabel("rue azerty");
+		adrCreate.setZipCode(25041);
+		adrCreate.setCountry("France");
+		adrCreate.setIsMain((byte) 1);
+		adrCreate.setGpOrganization(this.getOrgCreate());
+		return adrCreate;
 	}
 	protected GpProjectManager getPmCreate() {
 		pmCreate.setFileNumber("4052");
@@ -158,7 +191,13 @@ public class GpDataCreationDAOTest {
 		delCreate.setGpPhase(this.getPhsCreate());
 		return delCreate;
 	}
-	
+	protected GpBill getBllCreate( ) {
+		bllCreate.setBillCode("BP33");
+		bllCreate.setBillStatus("TRANSMITTED");
+		bllCreate.setAmount(99.99);
+		bllCreate.setGpPhase(this.getPhsCreate());
+		return bllCreate;
+	}
 	
 
 }

@@ -58,6 +58,15 @@ public class GpTechnicianDAOTest {
 		emp.setGraduationYear(1988);
 		emp = empDAO.create(emp);
 		this.createPmId = emp.getId();
+		Assert.assertEquals("1024", emp.getFileNumber());
+		Assert.assertEquals("HOLLANDE", emp.getLastname());
+		Assert.assertEquals("Francois", emp.getFirstname());
+		Assert.assertEquals("0365987854", emp.getPhoneNumber());
+		Assert.assertEquals("mySecondPassword", emp.getPassword());
+		Assert.assertEquals("francois.hollande@gouv.fr", emp.getEmail());
+		Assert.assertEquals("francois.hollande", emp.getLogin());
+		Assert.assertEquals("ENA", emp.getLastDiploma());
+		Assert.assertEquals(1988, emp.getGraduationYear());
 		
 		//When
 		emp.setFileNumber("U1024");
@@ -88,10 +97,8 @@ public class GpTechnicianDAOTest {
 	@Test
 	public void testFindAllEmployeeWithSuccess() {
 		//Given
-		
 		//When 
 		List<GpTechnician> emps = this.empDAO.findAll();
-		
 		//Then
 		Assert.assertTrue(emps.size() >0);
 	}
@@ -100,7 +107,6 @@ public class GpTechnicianDAOTest {
 	public void testFindByIdWithSuccess() {
 		//Given
 		Integer empId = this.pmIdForAllTest;
-		
 		//When 
 		GpTechnician emp = this.empDAO.findById(empId);
 		//Then
@@ -111,11 +117,8 @@ public class GpTechnicianDAOTest {
 	public void testDeleteByIdWithSuccess() {
 		//Given
 		Integer empId = this.pmIdForAllTest;
-		
 		//When 
 		this.empDAO.deleteById(empId);
-		
-		
 		//Then
 		GpTechnician emp = this.empDAO.findById(empId);
 		Assert.assertNull(emp);

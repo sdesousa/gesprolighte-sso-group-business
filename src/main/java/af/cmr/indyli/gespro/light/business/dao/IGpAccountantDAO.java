@@ -6,6 +6,7 @@ import af.cmr.indyli.gespro.light.business.entity.GpAccountant;
 
 public interface IGpAccountantDAO extends IGpEmployeeDAO<GpAccountant>{
 	public GpAccountant create(GpAccountant emp);
+	public void update(GpAccountant emp);
 	public List<GpAccountant> findAll();
 	public GpAccountant findById(Integer empId);
 

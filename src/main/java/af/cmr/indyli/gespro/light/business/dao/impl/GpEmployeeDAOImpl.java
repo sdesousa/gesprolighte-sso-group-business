@@ -23,8 +23,8 @@ public class GpEmployeeDAOImpl extends GpAbstractEmployeeDAOImpl<GpEmployee> imp
 
 	@Override
 	public void update(GpEmployee emp) {
-		String REQ_SQL = "UPDATE GP_EMPLOYEE SET LASTNAME=?, FIRSTNAME=?, PHONE_NUMBER=?, PASSWORD = ?, EMAIL=?, LOGIN=?, UPDATE_DATE = ? WHERE EMP_ID = ?";
-    	Object[] tabParam = {emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),emp.getEmail(),emp.getLogin(),new Date(),emp.getId()};
+		String REQ_SQL = "UPDATE GP_EMPLOYEE SET FILE_NUMBER=?, LASTNAME=?, FIRSTNAME=?, PHONE_NUMBER=?, PASSWORD = ?, EMAIL=?, LOGIN=?, UPDATE_DATE = ? WHERE EMP_ID = ?";
+    	Object[] tabParam = {emp.getFileNumber(),emp.getLastname(),emp.getFirstname(),emp.getPhoneNumber(),emp.getPassword(),emp.getEmail(),emp.getLogin(),new Date(),emp.getId()};
     	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
 	}
 

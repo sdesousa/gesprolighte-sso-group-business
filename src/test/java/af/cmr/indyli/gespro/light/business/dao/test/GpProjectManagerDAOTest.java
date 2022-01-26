@@ -11,6 +11,7 @@ import org.junit.Test;
 import af.cmr.indyli.gespro.light.business.dao.IGpProjectManagerDAO;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectManagerDAOImpl;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
+import af.cmr.indyli.gespro.light.business.entity.GpSecretary;
 
 public class GpProjectManagerDAOTest {
 
@@ -38,6 +39,50 @@ public class GpProjectManagerDAOTest {
 		
 		//Then
 		Assert.assertNotNull(emp.getId());
+	}
+	
+	@Test
+	public void testUpdateEmployeeWithSuccess() {
+		//Given
+		GpProjectManager emp = new GpProjectManager();
+		Assert.assertNull(emp.getId());
+		emp.setFileNumber("1024");
+		emp.setLastname("HOLLANDE");
+		emp.setFirstname("Francois");
+		emp.setPhoneNumber("0365987854");
+		emp.setPassword("mySecondPassword");
+		emp.setEmail("francois.hollande@gouv.fr");
+		emp.setLogin("francois.hollande");
+		emp = empDAO.create(emp);
+		this.createPmId = emp.getId();
+		Assert.assertEquals("1024", emp.getFileNumber());
+		Assert.assertEquals("HOLLANDE", emp.getLastname());
+		Assert.assertEquals("Francois", emp.getFirstname());
+		Assert.assertEquals("0365987854", emp.getPhoneNumber());
+		Assert.assertEquals("mySecondPassword", emp.getPassword());
+		Assert.assertEquals("francois.hollande@gouv.fr", emp.getEmail());
+		Assert.assertEquals("francois.hollande", emp.getLogin());
+		
+		//When
+		emp.setFileNumber("U1024");
+		emp.setLastname("UHOLLANDE");
+		emp.setFirstname("UFrancois");
+		emp.setPhoneNumber("U0365987854");
+		emp.setPassword("UmySecondPassword");
+		emp.setEmail("Ufrancois.hollande@gouv.fr");
+		emp.setLogin("Ufrancois.hollande");
+		empDAO.update(emp);
+		
+		//Then
+		emp = empDAO.findById(createPmId);
+		Assert.assertEquals("U1024", emp.getFileNumber());
+		Assert.assertEquals("UHOLLANDE", emp.getLastname());
+		Assert.assertEquals("UFrancois", emp.getFirstname());
+		Assert.assertEquals("U0365987854", emp.getPhoneNumber());
+		Assert.assertEquals("UmySecondPassword", emp.getPassword());
+		Assert.assertEquals("Ufrancois.hollande@gouv.fr", emp.getEmail());
+		Assert.assertEquals("Ufrancois.hollande", emp.getLogin());
+		
 	}
 	
 	@Test

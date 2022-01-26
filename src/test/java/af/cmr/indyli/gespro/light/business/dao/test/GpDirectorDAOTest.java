@@ -11,7 +11,6 @@ import org.junit.Test;
 import af.cmr.indyli.gespro.light.business.dao.IGpDirectorDAO;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpDirectorDAOImpl;
 import af.cmr.indyli.gespro.light.business.entity.GpDirector;
-import af.cmr.indyli.gespro.light.business.entity.GpSecretary;
 
 public class GpDirectorDAOTest {
 

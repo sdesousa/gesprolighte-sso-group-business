@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class GpEmpReaPhase implements IEntity {
 	private static final long serialVersionUID = 1L;
+	public static final  String GP_EMP_REA_PHASE_TABLE_NAME = "GP_EMP_REA_PHASE";
 
 	private Integer id;
 

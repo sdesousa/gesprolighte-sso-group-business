@@ -7,6 +7,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import af.cmr.indyli.gespro.light.business.entity.GpAddress;
 import af.cmr.indyli.gespro.light.business.entity.GpBill;
 import af.cmr.indyli.gespro.light.business.entity.GpDeliverable;
+import af.cmr.indyli.gespro.light.business.entity.GpEmpReaPhase;
 import af.cmr.indyli.gespro.light.business.entity.GpOrganization;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
 import af.cmr.indyli.gespro.light.business.entity.GpProject;
@@ -22,6 +23,7 @@ public class GpDataCreationDAOTest {
 	private GpPhase phsDefault = new GpPhase();
 	private GpDeliverable delDefault = new GpDeliverable();
 	private GpBill bllDefault = new GpBill();
+	private GpEmpReaPhase erpDefault = new GpEmpReaPhase();
 	private GpOrganization orgCreate = new GpOrganization();
 	private GpAddress adrCreate = new GpAddress();
 	private GpProjectManager pmCreate = new GpProjectManager();
@@ -29,6 +31,7 @@ public class GpDataCreationDAOTest {
 	private GpPhase phsCreate = new GpPhase();
 	private GpDeliverable delCreate = new GpDeliverable();
 	private GpBill bllCreate = new GpBill();
+	private GpEmpReaPhase erpCreate = new GpEmpReaPhase();
 	
 	protected GpOrganization getOrgDefault() {
 		orgDefault.setOrgCode("E498");
@@ -108,12 +111,18 @@ public class GpDataCreationDAOTest {
 		
 	}
 	
-	protected GpBill getBllDefault( ) {
+	protected GpBill getBllDefault() {
 		bllDefault.setBillCode("BP12");
 		bllDefault.setBillStatus("PAID");
 		bllDefault.setAmount(600.50);
 		bllDefault.setGpPhase(this.getPhsDefault());
 		return bllDefault;
+	}
+	
+	protected GpEmpReaPhase getErpDefault() {
+		erpDefault.setGpEmployee(this.getPmDefault());
+		erpDefault.setGpPhase(this.getPhsDefault());
+		return erpDefault;
 	}
 	
 	protected GpOrganization getOrgCreate() {
@@ -191,7 +200,7 @@ public class GpDataCreationDAOTest {
 		delCreate.setGpPhase(this.getPhsCreate());
 		return delCreate;
 	}
-	protected GpBill getBllCreate( ) {
+	protected GpBill getBllCreate() {
 		bllCreate.setBillCode("BP33");
 		bllCreate.setBillStatus("TRANSMITTED");
 		bllCreate.setAmount(99.99);
@@ -199,5 +208,10 @@ public class GpDataCreationDAOTest {
 		return bllCreate;
 	}
 	
+	protected GpEmpReaPhase getErpCreate() {
+		erpCreate.setGpEmployee(this.getPmCreate());
+		erpCreate.setGpPhase(this.getPhsCreate());
+		return erpCreate;
+	}
 
 }

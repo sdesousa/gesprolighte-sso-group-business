@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpTechnicianDAO;
-import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 import af.cmr.indyli.gespro.light.business.entity.GpTechnician;
 
 public class GpTechnicianDAOImpl extends GpAbstractEmployeeDAOImpl<GpTechnician> implements IGpTechnicianDAO{

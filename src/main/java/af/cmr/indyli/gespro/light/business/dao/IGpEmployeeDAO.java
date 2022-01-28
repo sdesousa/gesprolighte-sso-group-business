@@ -11,4 +11,7 @@ public interface IGpEmployeeDAO<Entity extends IEntity> {
 	public void deleteById(Integer empId);
 	public Entity findById(Integer empId);
 	public boolean ifEmpExistByFileNumberOrEmail(String fileNumber,String email,String login);
+	public boolean ifEmpExistByFileNumberOrEmailUpdate(String fileNumber, String email,String login, int empId);
+	public boolean ifFieldEmpty(String field);
+	public boolean ifEmpFieldEmpty(String email, String login, String fileNumber, String firstname, String lastname);
 }

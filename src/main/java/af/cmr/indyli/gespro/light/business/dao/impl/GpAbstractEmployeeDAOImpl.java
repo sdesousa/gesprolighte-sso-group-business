@@ -41,8 +41,26 @@ public abstract class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implemen
 	public boolean ifEmpExistByFileNumberOrEmail(String fileNumber, String email,String login) {
 		Integer empIdForEmail = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", email, "EMP_ID");
 		Integer empIdForFileNumber = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "FILE_NUMBER", fileNumber, "EMP_ID");
-		Integer empIdForLogin = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "LOGIN", fileNumber, "EMP_ID");
+		Integer empIdForLogin = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "LOGIN", login, "EMP_ID");
 		return empIdForEmail != null || empIdForFileNumber != null || empIdForLogin != null;
+	}
+	
+	public boolean ifEmpExistByFileNumberOrEmailUpdate(String fileNumber, String email,String login, int empId) {
+		Integer empIdForEmail = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "EMAIL", email, "EMP_ID");
+		Integer empIdForFileNumber = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "FILE_NUMBER", fileNumber, "EMP_ID");
+		Integer empIdForLogin = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "LOGIN", login, "EMP_ID");
+		return (empIdForEmail != null && empIdForEmail != empId) 
+				|| (empIdForFileNumber != null && empIdForFileNumber != empId) 
+				|| (empIdForLogin != null && empIdForLogin != empId);
+	}
+	
+	public boolean ifFieldEmpty(String field) {
+		boolean emptyField = (field == null || field.trim().isEmpty());
+		return emptyField;
+	}
+	
+	public boolean ifEmpFieldEmpty(String email, String login, String fileNumber, String firstname, String lastname) {
+		return ( ifFieldEmpty(email) || ifFieldEmpty(login) || ifFieldEmpty(fileNumber) || ifFieldEmpty(firstname) || ifFieldEmpty(lastname) );
 	}
 
 	public GpEntityManager getEntityManager() {

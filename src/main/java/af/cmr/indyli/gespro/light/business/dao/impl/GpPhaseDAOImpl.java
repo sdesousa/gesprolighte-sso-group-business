@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpPhaseDAO;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
@@ -128,6 +129,20 @@ public class GpPhaseDAOImpl implements IGpPhaseDAO<GpPhase>{
     	Object[] tabParam = {phsId};
     	this.getEntityManager().updateAvecParamGenerique(REQ_SQL, tabParam);
     	
+	}
+	
+	public boolean isDateValid(Date startPhase, Date startProject) {
+		return startPhase.compareTo(startProject) >= 0;
+	}
+	
+	public boolean isAmountValid(Date startPhase, Date endPhase, double amount) {
+		boolean valid = true;
+		Date startDatePlusSix = new Date();
+        startDatePlusSix.setMonth(startPhase.getMonth() + 6);
+        if ( startDatePlusSix.compareTo(endPhase) <= 0) valid = amount >= 150000;
+        return valid;
+		
+		
 	}
 	
 	public GpEntityManager getEntityManager() {

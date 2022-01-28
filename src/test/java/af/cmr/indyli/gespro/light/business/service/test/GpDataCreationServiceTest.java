@@ -81,15 +81,8 @@ public class GpDataCreationServiceTest {
 	protected GpPhase getPhsDefault() {
 		phsDefault.setPhaseCode("A1");
 		phsDefault.setDescription("premiere phase");
-		Date phsDefaultDate =null ;
-		try {
-			phsDefaultDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			phsDefaultDate = new Date();
-			// possible rajouter logger
-		}
-		phsDefault.setStartDate(phsDefaultDate);
-		phsDefault.setEndDate(phsDefaultDate);
+		phsDefault.setStartDate(new GregorianCalendar(2022, Calendar.JANUARY, 11).getTime());
+		phsDefault.setEndDate(new GregorianCalendar(2022, Calendar.JANUARY, 21).getTime());
 		phsDefault.setAmount(145.50);
 		phsDefault.setStatus((byte) 1);
 		phsDefault.setIsEnded((byte) 0);
@@ -167,15 +160,8 @@ public class GpDataCreationServiceTest {
 	protected GpPhase getPhsCreate() {
 		phsCreate.setPhaseCode("B2");
 		phsCreate.setDescription("seconde phase");
-		Date phsCreateDate =null ;
-		try {
-			phsCreateDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			phsCreateDate = new Date();
-			// possible rajouter logger
-		}
-		phsCreate.setStartDate(phsCreateDate);
-		phsCreate.setEndDate(phsCreateDate);
+		phsCreate.setStartDate(new GregorianCalendar(2022, Calendar.JANUARY, 11).getTime());
+		phsCreate.setEndDate(new GregorianCalendar(2022, Calendar.JANUARY, 21).getTime());
 		phsCreate.setAmount(145.50);
 		phsCreate.setStatus((byte) 1);
 		phsCreate.setIsEnded((byte) 0);

@@ -1,5 +1,7 @@
 package af.cmr.indyli.gespro.light.business.service.test;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +37,7 @@ public class GpPhaseServiceTest extends GpDataCreationServiceTest {
 	private Integer createOrgId = null;
 
 	@Test
-	public void testCreateAddressWithSuccess() throws GesproBusinessException {
+	public void testCreatePhaseWithSuccess() throws GesproBusinessException {
 		// Given
 		GpProjectManager projectManager = new GpProjectManager();
 		Assert.assertNull(projectManager.getId());
@@ -65,12 +67,89 @@ public class GpPhaseServiceTest extends GpDataCreationServiceTest {
 		//On le sauvegarde pour le supprimer apres
 		this.createPhsId = phs.getId();
 		// Then
+		
 		Assert.assertNotNull(phs.getId());
 
 	}
 	
 	@Test
-	public void testUpdateAddressWithSuccess() throws GesproBusinessException {
+	public void testCreatePhaseWithExceptionDate() throws GesproBusinessException {
+		// Given
+		GpProjectManager projectManager = new GpProjectManager();
+		Assert.assertNull(projectManager.getId());
+		projectManager = this.getPmCreate();
+		projectManager = empService.create(projectManager);
+		this.createEmpId = projectManager.getId();
+
+		GpOrganization organization = new GpOrganization();
+		Assert.assertNull(organization.getId());
+		organization = this.getOrgCreate();
+		organization = orgService.create(organization);
+		this.createOrgId = organization.getId();
+
+		GpProject projectToCreate = new GpProject();
+		Assert.assertNull(projectToCreate.getId());
+		projectToCreate = this.getPrjCreate();
+		projectToCreate = prjService.create(projectToCreate);
+		this.createPrjId = projectToCreate.getId();
+
+		// When
+		Exception exception = Assert.assertThrows(GesproBusinessException.class, () -> {
+			GpPhase phs = new GpPhase();
+			Assert.assertNull(phs.getId());
+			phs = this.getPhsCreate();
+			phs.setStartDate(new GregorianCalendar(2020, Calendar.JANUARY, 01).getTime());
+			phs = phsService.create(phs);
+			this.createPhsId = phs.getId();
+	    });
+		String actualMessage = exception.getMessage();
+
+		// Then
+		Assert.assertTrue(actualMessage.contains("La phase doit commencer après le projet"));
+	}
+	
+	@Test
+	public void testCreatePhaseWithExceptionAmount() throws GesproBusinessException {
+		// Given
+		GpProjectManager projectManager = new GpProjectManager();
+		Assert.assertNull(projectManager.getId());
+		projectManager = this.getPmCreate();
+		projectManager = empService.create(projectManager);
+		this.createEmpId = projectManager.getId();
+
+		GpOrganization organization = new GpOrganization();
+		Assert.assertNull(organization.getId());
+		organization = this.getOrgCreate();
+		organization = orgService.create(organization);
+		this.createOrgId = organization.getId();
+
+		GpProject projectToCreate = new GpProject();
+		Assert.assertNull(projectToCreate.getId());
+		projectToCreate = this.getPrjCreate();
+		projectToCreate.setStartDate(new GregorianCalendar(2022, Calendar.JANUARY, 01).getTime());
+		projectToCreate.setEndDate(new GregorianCalendar(2022, Calendar.DECEMBER, 31).getTime());
+		projectToCreate = prjService.create(projectToCreate);
+		this.createPrjId = projectToCreate.getId();
+
+		// When
+		Exception exception = Assert.assertThrows(GesproBusinessException.class, () -> {
+			GpPhase phs = new GpPhase();
+			Assert.assertNull(phs.getId());
+			phs = this.getPhsCreate();
+			phs.setStartDate(new GregorianCalendar(2022, Calendar.FEBRUARY, 01).getTime());
+			phs.setEndDate(new GregorianCalendar(2022, Calendar.SEPTEMBER, 31).getTime());
+			phs.setAmount(10000.00);
+			phs = phsService.create(phs);
+			this.createPhsId = phs.getId();
+	    });
+		String actualMessage = exception.getMessage();
+
+		// Then
+		Assert.assertTrue(actualMessage.contains("Le montant doit être supérieur à 150.000"));
+	}
+	
+	@Test
+	public void testUpdatePhaseWithSuccess() throws GesproBusinessException {
 		// Given
 		GpProjectManager projectManager = new GpProjectManager();
 		Assert.assertNull(projectManager.getId());
@@ -117,9 +196,88 @@ public class GpPhaseServiceTest extends GpDataCreationServiceTest {
 		Assert.assertEquals((byte) 1, phs.getStatus());
 		Assert.assertEquals((byte) 1, phs.getIsEnded());
 	}
+	
+	@Test
+	public void testUpdatePhaseWithExceptionDate() throws GesproBusinessException {
+		// Given
+		GpProjectManager projectManager = new GpProjectManager();
+		Assert.assertNull(projectManager.getId());
+		projectManager = this.getPmCreate();
+		projectManager = empService.create(projectManager);
+		this.createEmpId = projectManager.getId();
+
+		GpOrganization organization = new GpOrganization();
+		Assert.assertNull(organization.getId());
+		organization = this.getOrgCreate();
+		organization = orgService.create(organization);
+		this.createOrgId = organization.getId();
+
+		GpProject projectToCreate = new GpProject();
+		Assert.assertNull(projectToCreate.getId());
+		projectToCreate = this.getPrjCreate();
+		projectToCreate.setStartDate(new GregorianCalendar(2022, Calendar.JANUARY, 01).getTime());
+		projectToCreate.setEndDate(new GregorianCalendar(2022, Calendar.DECEMBER, 31).getTime());
+		projectToCreate = prjService.create(projectToCreate);
+		this.createPrjId = projectToCreate.getId();
+
+		// When
+		Exception exception = Assert.assertThrows(GesproBusinessException.class, () -> {
+			GpPhase phs = new GpPhase();
+			Assert.assertNull(phs.getId());
+			phs = this.getPhsCreate();
+			phs.setStartDate(new GregorianCalendar(2022, Calendar.FEBRUARY, 01).getTime());
+			phs.setEndDate(new GregorianCalendar(2022, Calendar.SEPTEMBER, 31).getTime());
+			phs.setAmount(200000.00);
+			phs = phsService.create(phs);
+			this.createPhsId = phs.getId();
+			phs.setAmount(120000);
+			phsService.update(phs);
+	    });
+		String actualMessage = exception.getMessage();
+
+		// Then
+		Assert.assertTrue(actualMessage.contains("Le montant doit être supérieur à 150.000"));
+	}
+	
+	@Test
+	public void testUpdatePhaseWithExceptionAmount() throws GesproBusinessException {
+		// Given
+		GpProjectManager projectManager = new GpProjectManager();
+		Assert.assertNull(projectManager.getId());
+		projectManager = this.getPmCreate();
+		projectManager = empService.create(projectManager);
+		this.createEmpId = projectManager.getId();
+
+		GpOrganization organization = new GpOrganization();
+		Assert.assertNull(organization.getId());
+		organization = this.getOrgCreate();
+		organization = orgService.create(organization);
+		this.createOrgId = organization.getId();
+
+		GpProject projectToCreate = new GpProject();
+		Assert.assertNull(projectToCreate.getId());
+		projectToCreate = this.getPrjCreate();
+		projectToCreate = prjService.create(projectToCreate);
+		this.createPrjId = projectToCreate.getId();
+
+		// When
+		Exception exception = Assert.assertThrows(GesproBusinessException.class, () -> {
+			GpPhase phs = new GpPhase();
+			Assert.assertNull(phs.getId());
+			phs = this.getPhsCreate();
+			phs = phsService.create(phs);
+			this.createPhsId = phs.getId();
+			phs.setStartDate(new GregorianCalendar(2020, Calendar.JANUARY, 01).getTime());
+			phsService.update(phs);
+	    });
+		String actualMessage = exception.getMessage();
+
+		// Then
+		Assert.assertTrue(actualMessage.contains("La phase doit commencer après le projet"));
+	}
 
 	@Test
-	public void testFindAllAddressWithSuccess() {
+	public void testFindAllPhaseWithSuccess() {
 		// Given
 
 		// When

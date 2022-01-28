@@ -16,8 +16,6 @@ import af.cmr.indyli.gespro.light.business.service.impl.GpEmployeeServiceImpl;
 public class GpEmployeeServiceTest {
 
 	private IGpEmployeeService<GpEmployee> empService = new GpEmployeeServiceImpl();
-	
-
 	private Integer empIdForAllTest = null;
 	private Integer createEmpId = null;
 

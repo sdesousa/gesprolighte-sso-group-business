@@ -16,8 +16,6 @@ import af.cmr.indyli.gespro.light.business.exception.GesproBusinessException;
 public class GpTechnicianServiceTest {
 
 	private IGpTechnicianService empService = new GpTechnicianServiceImpl();
-	
-
 	private Integer empIdForAllTest = null;
 	private Integer createEmpId = null;
 

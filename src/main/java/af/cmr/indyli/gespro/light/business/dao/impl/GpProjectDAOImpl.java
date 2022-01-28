@@ -131,6 +131,37 @@ public class GpProjectDAOImpl implements IGpProjectDAO<GpProject>{
     	
 	}
 	
+	public boolean isProjectManagerCreated(Integer pmId) {
+		return pmId != null && empImpl.findById(pmId) !=null;
+	}
+	
+	public boolean isOrganizationCreated(Integer orgId) {
+		return orgId != null && orgImpl.findById(orgId) !=null;
+	}
+	
+	public boolean isProjectCodeExist(String code) {
+		Integer prjIdForCode = this.entityManager.findIdByAnyColumn("GP_PROJECT", "PROJECT_CODE", code, "PROJECT_ID");
+		return prjIdForCode != null;
+	}
+	
+	public boolean isProjectCodeExistUpdate(String code, int prjId) {
+		Integer prjIdForCode = this.entityManager.findIdByAnyColumn("GP_PROJECT", "PROJECT_CODE", code, "PROJECT_ID");
+		return (prjIdForCode != null && prjIdForCode != prjId);
+	}
+	
+	public boolean isDateExist(Date date) {
+		return date != null;
+	}
+	
+	public boolean isDateValid(Date start, Date end) {
+		boolean valid = true;
+		if (isDateExist(end)) {
+			valid = start.compareTo(end) < 0;
+		}
+		return valid;
+		
+	}
+	
 	public GpEntityManager getEntityManager() {
 		return entityManager;
 	}

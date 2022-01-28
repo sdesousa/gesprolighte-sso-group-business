@@ -1,7 +1,10 @@
 package af.cmr.indyli.gespro.light.business.service.test;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.apache.commons.lang3.time.DateUtils;
 
 import af.cmr.indyli.gespro.light.business.entity.GpAddress;
@@ -65,15 +68,8 @@ public class GpDataCreationServiceTest {
 		prjDefault.setProjectCode("18023");
 		prjDefault.setName("Service Cloud Amazon");
 		prjDefault.setDescription("Mise en place Cloud Test");
-		Date maDate = null;
-		try {
-			maDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			maDate = new Date();
-			// possible rajouter logger
-		}
-		prjDefault.setStartDate(maDate);
-		prjDefault.setEndDate(maDate);
+		prjDefault.setStartDate(new GregorianCalendar(2022, Calendar.JANUARY, 01).getTime());
+		prjDefault.setEndDate(new GregorianCalendar(2022, Calendar.JANUARY, 31).getTime());
 		prjDefault.setAmount(9000);
 		prjDefault.setCreationDate(new Date());
 		Date MajDate = new Date();
@@ -154,17 +150,11 @@ public class GpDataCreationServiceTest {
 		return pmCreate;
 	}
 	protected GpProject getPrjCreate() {
-		prjCreate.setProjectCode("18023");
+		prjCreate.setProjectCode("4572");
 		prjCreate.setName("Service Cloud Amazon");
 		prjCreate.setDescription("Demande d'une entit d'Amazon d'amliorer son service cloud");
-		Date maDate =null ;
-		try {
-			maDate = DateUtils.parseDate("20-01-2022", "dd-MM-yyyy");
-		} catch (ParseException e) {
-			maDate = new Date();
-		}
-		prjCreate.setStartDate(maDate);
-		prjCreate.setEndDate(maDate);
+		prjCreate.setStartDate(new GregorianCalendar(2022, Calendar.JANUARY, 01).getTime());
+		prjCreate.setEndDate(new GregorianCalendar(2022, Calendar.JANUARY, 31).getTime());
 		prjCreate.setAmount(9000); 
 		Date CreDate = new Date(); 
 		prjCreate.setCreationDate(CreDate);

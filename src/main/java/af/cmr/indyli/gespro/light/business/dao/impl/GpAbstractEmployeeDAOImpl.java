@@ -51,7 +51,8 @@ public abstract class GpAbstractEmployeeDAOImpl<Entity extends IEntity> implemen
 		Integer empIdForLogin = this.entityManager.findIdByAnyColumn("GP_EMPLOYEE", "LOGIN", login, "EMP_ID");
 		return (empIdForEmail != null && empIdForEmail != empId) 
 				|| (empIdForFileNumber != null && empIdForFileNumber != empId) 
-				|| (empIdForLogin != null && empIdForLogin != empId);
+				|| (empIdForLogin != null && empIdForLogin != empId
+		);
 	}
 	
 	public boolean ifFieldEmpty(String field) {

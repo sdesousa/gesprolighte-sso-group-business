@@ -1,11 +1,8 @@
 package af.cmr.indyli.gespro.light.business.service.test;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 import af.cmr.indyli.gespro.light.business.entity.GpAddress;
 import af.cmr.indyli.gespro.light.business.entity.GpBill;

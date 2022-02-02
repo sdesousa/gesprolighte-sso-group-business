@@ -58,7 +58,7 @@ public class GpOrganizationDAOImpl implements IGpOrganizationDAO<GpOrganization>
 					GpOrganization foundOrg = new GpOrganization();
 					foundOrg.setId(orgId);
 					foundOrg.setOrgCode(orgCode);
-					foundOrg.setOrgCode(orgName);
+					foundOrg.setName(orgName);
 					foundOrg.setPhoneNumber(phoneNumber);
 					foundOrg.setAdrWeb(adrWeb);
 					foundOrg.setContactName(contactName);

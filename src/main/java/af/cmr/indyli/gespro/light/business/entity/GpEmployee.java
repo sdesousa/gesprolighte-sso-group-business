@@ -137,5 +137,9 @@ public class GpEmployee implements IEntity {
 
 		return gpAddress;
 	}
+	
+	public String getFullname() {
+		return this.firstname + " " + this.lastname;
+	}
 
 }

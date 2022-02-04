@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpProjectManagerDAO;
+import af.cmr.indyli.gespro.light.business.entity.GpEmployee;
 import af.cmr.indyli.gespro.light.business.entity.GpProjectManager;
 
 public class GpProjectManagerDAOImpl extends GpAbstractEmployeeDAOImpl<GpProjectManager> implements IGpProjectManagerDAO{
@@ -118,5 +119,12 @@ public class GpProjectManagerDAOImpl extends GpAbstractEmployeeDAOImpl<GpProject
 	@Override
 	public String getCurrentTableName() {
 		return GpProjectManager.GP_PROJECT_MANAGER_TABLE_NAME;
+	}
+	
+	public GpProjectManager promoteToProjectManager(GpEmployee emp) {
+   		String REQ_SQL_PM = "INSERT INTO GP_PROJECT_MANAGER (EMP_ID) VALUES (?)";
+	   	Object[] tabParamPM = {emp.getId()};
+	   	this.getEntityManager().updateAvecParamGenerique(REQ_SQL_PM, tabParamPM);
+	   	return this.findById(emp.getId());
 	}
 }

@@ -14,6 +14,17 @@ public class GpProjectManager extends GpEmployee {
 	public GpProjectManager() {
 		super();
 	}
+	
+	public GpProjectManager(GpEmployee emp) {
+		this.setFileNumber(emp.getFileNumber());
+		this.setFirstname(emp.getFirstname());
+		this.setLastname(emp.getLastname());
+		this.setEmail(emp.getEmail());
+		this.setPhoneNumber(emp.getPhoneNumber());
+		this.setLogin(emp.getLogin());
+		this.setPassword(emp.getPassword());
+		this.setGpAddresses(emp.getGpAddresses());
+	}
 
 
 	public List<GpProject> getGpProjects() {

@@ -13,6 +13,9 @@ public class GpProjectServiceImpl implements IGpProjectService<GpProject>{
 	private IGpProjectDAO<GpProject> prjDAO = new GpProjectDAOImpl();
 	
 	public GpProject create(GpProject prj) throws GesproBusinessException{
+		if (prj.getProjectCode() == null) {
+			throw new GesproBusinessException(String.format("Le code du projet est requis"));
+		}
 		if (this.prjDAO.isProjectCodeExist(prj.getProjectCode())) {
 			throw new GesproBusinessException(String.format("Un projet existe deja avec ce code[%s]",prj.getProjectCode()));
 		}
@@ -32,6 +35,9 @@ public class GpProjectServiceImpl implements IGpProjectService<GpProject>{
 	}
 
 	public void update(GpProject prj) throws GesproBusinessException{
+		if (prj.getProjectCode() == null) {
+			throw new GesproBusinessException(String.format("Le code du projet est requis"));
+		}
 		if (this.prjDAO.isProjectCodeExistUpdate(prj.getProjectCode(), prj.getId())) {
 			throw new GesproBusinessException(String.format("Un projet existe deja avec ce code[%s]",prj.getProjectCode()));
 		}

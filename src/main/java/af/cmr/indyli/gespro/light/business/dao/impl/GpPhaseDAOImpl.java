@@ -142,6 +142,16 @@ public class GpPhaseDAOImpl implements IGpPhaseDAO<GpPhase>{
         return valid;
 	}
 	
+	public boolean isPhaseCodeExist(String code) {
+		Integer phsIdForCode = this.entityManager.findIdByAnyColumn("GP_PHASE", "PHASE_CODE", code, "PHASE_ID");
+		return phsIdForCode != null;
+	}
+	
+	public boolean isPhaseCodeExistUpdate(String code, int phsId) {
+		Integer phsIdForCode = this.entityManager.findIdByAnyColumn("GP_PHASE", "PHASE_CODE", code, "PHASE_ID");
+		return (phsIdForCode != null && phsIdForCode != phsId);
+	}
+	
 	public GpEntityManager getEntityManager() {
 		return entityManager;
 	}
@@ -153,4 +163,5 @@ public class GpPhaseDAOImpl implements IGpPhaseDAO<GpPhase>{
 	public String getCurrentTableName() {
 		return GpPhase.GP_PHASE_TABLE_NAME;
 	}
+	
 }

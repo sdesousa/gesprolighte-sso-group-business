@@ -13,4 +13,6 @@ public interface IGpPhaseDAO<Entity extends IEntity> {
 	public void deleteById(Integer empId);
 	public boolean isDateValid(Date startPhase, Date startProject);
 	public boolean isAmountValid(Date startPhase, Date endPhase, double amount);
+	public boolean isPhaseCodeExist(String code);
+	public boolean isPhaseCodeExistUpdate(String code, int phsId);
 }

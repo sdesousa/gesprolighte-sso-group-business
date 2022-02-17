@@ -3,16 +3,21 @@ package af.cmr.indyli.gespro.light.business.service.impl;
 import java.util.List;
 
 import af.cmr.indyli.gespro.light.business.dao.IGpPhaseDAO;
+import af.cmr.indyli.gespro.light.business.dao.IGpProjectDAO;
 import af.cmr.indyli.gespro.light.business.dao.impl.GpPhaseDAOImpl;
+import af.cmr.indyli.gespro.light.business.dao.impl.GpProjectDAOImpl;
 import af.cmr.indyli.gespro.light.business.entity.GpPhase;
+import af.cmr.indyli.gespro.light.business.entity.GpProject;
 import af.cmr.indyli.gespro.light.business.exception.GesproBusinessException;
 import af.cmr.indyli.gespro.light.business.service.IGpPhaseService;
 
 public class GpPhaseServiceImpl implements IGpPhaseService<GpPhase>{
 
 	private IGpPhaseDAO<GpPhase> phsDAO = new GpPhaseDAOImpl();
+	private IGpProjectDAO<GpProject> prjDao =  new GpProjectDAOImpl();
 	
 	public GpPhase create(GpPhase phs) throws GesproBusinessException{
+		phs.setGpProject(prjDao.findById(phs.getGpProject().getId()));
 		if (this.phsDAO.isPhaseCodeExist(phs.getPhaseCode())) {
 			throw new GesproBusinessException(String.format("Une phase existe deja avec ce code[%s]",phs.getPhaseCode()));
 		}
